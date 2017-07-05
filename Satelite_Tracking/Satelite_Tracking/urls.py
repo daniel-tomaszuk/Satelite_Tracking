@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from Sat_Track.views import *
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^satellites/(?P<sat_id>(\d)+)', SatellitesInfo.as_view(), name="sat-info"),
+    url(r'^satellites', Satellites.as_view(), name="sat-all"),
+    url(r'^map', Map.as_view(), name="map"),
+
+
 ]

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Informacje o setelicie <b>{{ satellite.name }}</b>:</h1>
+    <ul>
+        <li>Epoch: {{ satellite.date}}</li>
+        <li>Długość geograficzna: {{ satellite.longi }}</li>
+        <li>Szerokość geograficzna : {{ satellite.lati }}</li>
+        <li>Wysokość n.p.m.: {{ satellite.alti }}km</li>
+    </ul>
+    <h1>Historia:</h1>
+    <table border="solid">
+        <tr>
+            <th>Epoch</th>
+            <th>Długość geograficzna</th>
+            <th>Szerokość geograficzna</th>
+            <th>Wysokość n.p.m.</th>
+        </tr>
+        {% for sat_hist in history %}
+        <tr>
+            <td>{{ sat_hist.date }}</td>
+            <td>{{ sat_hist.longi }}</td>
+            <td>{{ sat_hist.lati }}</td>
+            <td>{{ sat_hist.alti }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}
+
