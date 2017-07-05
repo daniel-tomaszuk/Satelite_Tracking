@@ -2,14 +2,19 @@
 {% block content %}
 
 {% load static %}
-    <img src="{% static "Sat_Track/world.jpg" %}" alt="My image"
-    style="width:80%; height:80%;" />
+        <div class="box big" id="box">
+            <img src='{% static "Sat_Track/world.jpg" %}' alt="World_image"
+                                                    style="width:100%; height:100%; position: relative;"/>
+            <!--<img src='{% static "Sat_Track/sat.png" %}' id="sat_icon"-->
+                 <!--style="display: none; width: 2%; height: 4%;-->
+                 <!--position: absolute; top: 0px; left: 0px;" />-->
+        <!--position: absolute;-->
+        </div>
 
-    {% for satellite in satellites %}
-
-
+        Polożenie myszki:
+        Globalne: X: <span id="globalX"></span>
+        Globalne: Y: <span id="globalY"></span>
+        Lokalne: X: <span id="localX"></span>
+        Lokalne: Y: <span id="localY"></span>
 {% endblock %}
-
-
-
 

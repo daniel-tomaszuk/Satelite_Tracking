@@ -1,9 +1,30 @@
 <!doctype html>
 <html>
-    <head><meta charset="utf-8"></head>
+    <head>
+        <meta charset="utf-8">
+        <script type="text/javascript">
+            {% comment %}
+                <!--global js variables!-->
+            {% endcomment %}
+            sats_json = {{ sats_json|safe }};
+            sats_hist_json = {{ sats_hist_json|safe }};
+        </script>
+
+        {% load static %}
+        <script type="text/javascript" src='{% static "Sat_Track/js/j_script.js" %}'></script>
+        <!--jquery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
     <body>
         {% block content %}
         {% endblock %}
     </body>
 </html>
 
+
+
+{% comment %}
+<!--Not safe way! TO DO: make it safe.-->
+        widget.init(sats_json);
+var sats_json = "{{ sats_json }}";
+{% endcomment %}

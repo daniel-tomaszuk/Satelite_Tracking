@@ -22,7 +22,6 @@ class Satellite(models.Model):
     lati = models.FloatField()
     alti = models.FloatField()
     date = models.DateTimeField(auto_now=True)
-
     hist = models.ManyToManyField(SatHistory)
     # date = models.CharField(max_length=64)
 

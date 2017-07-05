@@ -8,7 +8,9 @@ from .models import *
 
 import kronos
 
-
+import json
+# from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -79,7 +81,7 @@ SAT_NAME = [
 
 # manage.py installtasks
 # You can review the crontab with a crontab -l command
-@kronos.register('*/10 * * * *')
+@kronos.register('* * * * *')
 def actuate_sats():
     for name in SAT_NAME:
         try:
@@ -125,7 +127,7 @@ def actuate_sats():
 
 class Satellites(View):
     def get(self, request):
-        actuate_sats()
+        # actuate_sats()
         satellites = Satellite.objects.all()
         context = {
             "satellites": satellites
@@ -148,13 +150,33 @@ class SatellitesInfo(View):
         return render(request, "satellite_info.html", context)
 
 
+
 class Map(View):
-    pass
-    # def get(self, request):
-    #     satellites = Satellite.objects.all()
-    #     context = {
-    #         "satellites": satellites,
-    #     }
-    #     return render(request, "map.html", context)
+    # pass
+    def get(self, request):
+        # satellites = Satellite.objects.get(pk=11)
+        # satellites = Satellite.objects.filter(pk__in=[11, 13])
+        satellites = Satellite.objects.all()
+        # sats_json = serializers.serialize('json', Satellite.objects.filter(pk__in=[11, 13]))
+        sats_json = serializers.serialize('json', Satellite.objects.all())
+        # get id of history objects related to satellite
+        hist_id = []
+        for sat in satellites:
+            hist_list_id = sat.hist.all()
+            for hist in hist_list_id:
+                hist_id.append(hist.id)
+
+        sats_hist_json = serializers.serialize('json', SatHistory.objects.filter(pk__in=hist_id))
+
+        context = {
+            "satellites": satellites,
+            "sats_json": sats_json,
+            "sats_hist_json": sats_hist_json,
+        }
+        return render(request, "map.html", context)
+
+# prices = Price.objects.filter(product=product).values_list('price','valid_from')
+
+
 
 
