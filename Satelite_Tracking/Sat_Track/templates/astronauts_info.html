@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{ astronaut.first_name }} {{ astronaut.last_name }}</h1>
+
+    <h2>Agencja kosmiczna:</h2>
+    <p><a href="/space_agencies/{{ agency.id }}">{{ agency.acronym }}</a></p>
+    <h2>Satelita:</h2>
+    <p><a href="/satellites/{{ satellite.pk }}">{{ satellite.name }}</a></p>
+{% endblock %}
+

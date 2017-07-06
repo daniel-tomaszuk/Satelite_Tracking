@@ -3,7 +3,7 @@
     <h1>Lista znalezionych satelitów:</h1>
     <ul>
         {% for satellite in satellites %}
-            <li><a href="/satellites/{{ satellite.pk }}"> ID: {{ satellite.pk }},<b>Nazwa: {{ satellite.name }}</b></a> </li>
+            <li><a href="/satellites/{{ satellite.pk }}">Nazwa: <b>{{ satellite.name }}</b></a> </li>
             {% comment %}
             <!--<li>Długość geograficzna: {{ satellite.longi }}</li>-->
             <!--<li>Szerokość geograficzna : {{ satellite.lati }}</li>-->
@@ -11,5 +11,8 @@
             {% endcomment %}
         {% endfor %}
     </ul>
+    <input type="button" onclick="location.href='/space_agencies';" value="Agencje Kosmiczne"/>
+    <input type="button" onclick="location.href='/astronauts';" value="Astronauci" />
+    <input type="button" onclick="location.href='/map';" value="Mapa Satelitów" />
 {% endblock %}
 

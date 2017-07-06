@@ -2,12 +2,39 @@
 {% block content %}
     <h1>Informacje o setelicie <b>{{ satellite.name }}</b>:</h1>
     <ul>
+        <li>Agencja kosmiczna: <a href="/space_agencies/{{ agency.id }}">{{ agency.name }}</a>
+        <a href="/update_satellites/{{ satellite.id }}">Modyfikuj!</a>
+
         <li>Epoch: {{ satellite.date}}</li>
         <li>Długość geograficzna: {{ satellite.longi }}</li>
         <li>Szerokość geograficzna : {{ satellite.lati }}</li>
         <li>Wysokość n.p.m.: {{ satellite.alti }}km</li>
     </ul>
-    <h1>Historia:</h1>
+    <input type="button" onclick="location.href='/satellites';"
+           value="Lista satelitów"/>
+    <input type="button" onclick="location.href='/astronauts';"
+           value="Astronauci"/>
+
+    <h2>Załoga:</h2>
+    <table border="solid">
+        <tr>
+            <td><b>Imię</b></td>
+            <td><b>Nazwisko</b></td>
+        </tr>
+        {% for astronaut in astronauts %}
+        <tr>
+            <td>{{ astronaut.first_name }}</td>
+            <td>{{ astronaut.last_name }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td>Brak!</td>
+            <td>Brak!</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Historia:</h2>
     <table border="solid">
         <tr>
             <th>Epoch</th>

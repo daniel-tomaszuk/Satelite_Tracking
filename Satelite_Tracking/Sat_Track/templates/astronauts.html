@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Lista astronautów:</h1>
+    <ul>
+        {% for astr in astronauts %}
+            <li>
+                <a href="/astronauts/{{ astr.id }}">
+                    {{ astr.first_name }} {{ astr.last_name }}
+                </a>
+                <input type="button" onclick="location.href=
+                                           '/update_astronauts/{{ astr.id }}';"
+                       value="Modyfikuj"/>
+                <input type="button" onclick="location.href=
+                                           '/delete_astronauts/{{ astr.id }}';"
+                       value="Usuń"/>
+
+            </li>
+        {% endfor %}
+        <br>
+        <input type="button" onclick="location.href='/add_astronauts';"
+               value="Dodaj"/>
+        <input type="button" onclick="location.href='/satellites';"
+               value="Lista satelitów"/>
+    </ul>
+{% endblock %}
+

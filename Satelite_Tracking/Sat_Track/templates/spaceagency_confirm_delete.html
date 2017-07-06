@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<form action="" method="post">
+		{%	csrf_token	%}
+        <p>Czy na pewno chesz usunąć <b>"{{ object }}"</b>?</p>
+        <input type="submit" value="Usuń"/>
+        <input type="button" onclick="location.href='/space_agencies';"
+           value="Anuluj"/>
+    </form>
+
+{% endblock %}
+

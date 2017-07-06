@@ -112,7 +112,8 @@ def actuate_sats():
                     sat.save()
 
             except ObjectDoesNotExist:
-                # if there is no satellite with such name - creating is possible
+                # if there is no satellite with such name
+                # creating is possible
                 sat = Satellite.objects.create(name=name,
                                                longi=geo_position[0],
                                                lati=geo_position[1],
@@ -123,6 +124,32 @@ def actuate_sats():
         except (KeyError, NotImplementedError):
             print('No satellite name: {}'.format(name))
 
+
+class Map(View):
+    # pass
+    def get(self, request):
+        # satellites = Satellite.objects.get(pk=11)
+        # satellites = Satellite.objects.filter(pk__in=[11, 13])
+        satellites = Satellite.objects.all()
+        # sats_json = serializers.serialize('json',
+        # Satellite.objects.filter(pk__in=[11, 13]))
+        sats_json = serializers.serialize('json', Satellite.objects.all())
+        # get id of history objects related to satellite
+        hist_id = []
+        for sat in satellites:
+            hist_list_id = sat.hist.all()
+            for hist in hist_list_id:
+                hist_id.append(hist.id)
+
+        sats_hist_json = serializers.serialize('json',
+                         SatHistory.objects.filter(pk__in=hist_id))
+
+        context = {
+            "satellites": satellites,
+            "sats_json": sats_json,
+            "sats_hist_json": sats_hist_json,
+        }
+        return render(request, "map.html", context)
 
 
 class Satellites(View):
@@ -139,43 +166,125 @@ class SatellitesInfo(View):
 
     def get(self, request, sat_id):
         satellite = Satellite.objects.get(pk=sat_id)
-        # sat_history = SatHistory.objects.filter(name=satellite.name)
-        sat_history = SatHistory.objects.filter(name=satellite.name).order_by('-date')
-
-        # sat_history.sort(key=operator.itemgetter('date'))
+        sat_history = SatHistory.objects.filter(name=
+                                                satellite.name).order_by('-date')
+        astronauts = satellite.astronaut_set.all()
+        agency = satellite.agency
         context = {
             "satellite": satellite,
             "history": sat_history,
+            "astronauts": astronauts,
+            "agency": agency,
         }
         return render(request, "satellite_info.html", context)
 
 
 
-class Map(View):
-    # pass
+
+class UpdateSatellites(UpdateView):
+    model = Satellite
+    template_name = "satellites_update_form.html"
+    fields = ['agency']
+    success_url = '/satellites'
+
+
+class SpaceAgencies(View):
     def get(self, request):
-        # satellites = Satellite.objects.get(pk=11)
-        # satellites = Satellite.objects.filter(pk__in=[11, 13])
-        satellites = Satellite.objects.all()
-        # sats_json = serializers.serialize('json', Satellite.objects.filter(pk__in=[11, 13]))
-        sats_json = serializers.serialize('json', Satellite.objects.all())
-        # get id of history objects related to satellite
-        hist_id = []
-        for sat in satellites:
-            hist_list_id = sat.hist.all()
-            for hist in hist_list_id:
-                hist_id.append(hist.id)
-
-        sats_hist_json = serializers.serialize('json', SatHistory.objects.filter(pk__in=hist_id))
-
+        # actuate_sats()
+        agencies = SpaceAgency.objects.all()
         context = {
-            "satellites": satellites,
-            "sats_json": sats_json,
-            "sats_hist_json": sats_hist_json,
+            "agencies": agencies
         }
-        return render(request, "map.html", context)
+        return render(request, "agencies.html", context)
 
-# prices = Price.objects.filter(product=product).values_list('price','valid_from')
+
+class AgencyInfo(View):
+
+    def get(self, request, agency_id):
+        agency = SpaceAgency.objects.get(pk=agency_id)
+        satellites = agency.satellite_set.all()
+        astronauts = agency.astronaut_set.all()
+        # sat_history.sort(key=operator.itemgetter('date'))
+        context = {
+            "agency": agency,
+            "satellites": satellites,
+            "astronauts": astronauts,
+        }
+        return render(request, "agency_info.html", context)
+
+
+class AddSpaceAgency(CreateView):
+    model = SpaceAgency
+    template_name = "add_space_agency_form.html"
+    fields = ['name', 'acronym', 'country', 'launch_capable']
+    success_url = '/space_agencies'
+
+
+class UpdateSpaceAgency(UpdateView):
+    model = SpaceAgency
+    template_name = "spaceagency_update_form.html"
+    fields = ['name', 'acronym', "country", "launch_capable"]
+    success_url = '/space_agencies'
+
+
+class DeleteSpaceAgency(DeleteView):
+    model = SpaceAgency
+    template_name = "spaceagency_confirm_delete.html"
+    success_url = '/space_agencies'
+
+
+class Astronauts(View):
+    def get(self, request):
+        # actuate_sats()
+        astronauts = Astronaut.objects.all()
+        context = {
+            "astronauts": astronauts,
+        }
+        return render(request, "astronauts.html", context)
+
+
+class AstronautsInfo(View):
+
+    def get(self, request, astr_id):
+        astronaut = Astronaut.objects.get(pk=astr_id)
+        agency = astronaut.agency
+        satellite = astronaut.satellite
+        context = {
+            "astronaut": astronaut,
+            "satellite": satellite,
+            "agency": agency,
+        }
+        return render(request, "astronauts_info.html", context)
+
+
+class AddAstronauts(CreateView):
+    model = Astronaut
+    template_name = "add_astronauts_form.html"
+    fields = ['first_name', 'last_name', 'agency', 'satellite']
+    success_url = '/astronauts'
+
+
+class UpdateAstronauts(UpdateView):
+    model = Astronaut
+    template_name = "astronauts_update_form.html"
+    fields = ['first_name', 'last_name', "agency", "satellite"]
+    success_url = '/astronauts'
+
+
+class DeleteAstronauts(DeleteView):
+    model = Astronaut
+    template_name = "astronauts_confirm_delete.html"
+    success_url = '/astronauts'
+
+
+
+
+
+
+
+
+
+
 
 
 
