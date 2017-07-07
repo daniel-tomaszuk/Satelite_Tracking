@@ -4,7 +4,9 @@
 <form action="{% url 'add-space-agency' %}" method="post">
 		{%	csrf_token	%}
 		{{	form.as_p	}}
-		<input type="submit" value="Save">
+		<input type="submit" value="Dodaj">
+		<input type="button" onclick="location.href='/space_agencies';"
+			   value="Anuluj"/>
 </form>
 {% endblock %}
 

@@ -5,7 +5,7 @@ from django.views.generic.edit import *
 from .models import *
 import kronos
 
-import json
+# import json
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
@@ -43,6 +43,12 @@ SAT_NAME = [
 # You can review the crontab with a crontab -l command
 @kronos.register('* * * * *')  # every minute
 def actuate_sats():
+    """
+    Use external library to get positions of requested satellites.
+    Create new Satellite (look at models) object if there is no satellite with found name,
+    or update existing satellite if it's already in the DB
+    :return: None - only create/update/do nothing on DB objects
+    """
     for name in SAT_NAME:
         try:
             orb = Orbital(name)
@@ -85,7 +91,6 @@ def actuate_sats():
 
 class Map(View):
     def get(self, request):
-
         # on get - show map without satellites
         context = {
             "satellites": "",
@@ -104,7 +109,6 @@ class Map(View):
         satellites = Satellite.objects.filter(name__in=sat_list)
         # make json out of chosen satellites
         sats_json = serializers.serialize('json', satellites)
-
         # get id of history objects related to satellite
         hist_id = []
         # for every chosen satellite
@@ -139,7 +143,7 @@ class SatellitesInfo(View):
     def get(self, request, sat_id):
         satellite = Satellite.objects.get(pk=sat_id)
         sat_history = SatHistory.objects.filter(name=
-                                                satellite.name).order_by('-date')
+                        satellite.name).order_by('-date')
         astronauts = satellite.astronaut_set.all()
         agency = satellite.agency
         context = {
@@ -233,7 +237,6 @@ class AddAstronauts(CreateView):
 
 
 class UpdateAstronauts(UpdateView):
-
     model = Astronaut
     template_name = "astronauts_update_form.html"
     fields = ['first_name', 'last_name', "agency", "satellite"]

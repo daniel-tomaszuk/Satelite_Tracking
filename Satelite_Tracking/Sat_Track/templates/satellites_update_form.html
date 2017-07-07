@@ -5,7 +5,8 @@
 		{%	csrf_token	%}
 		<h1>Modyfikacja agencji kosmicznej satelity! </h1>
 		{{	form.as_p	}}
-		<input	type="submit" value="Save">
+		<input	type="submit" value="Zapisz">
+		<input type="button" onclick="location.href='/satellites/';" value="Anuluj"/>
 </form>
 {% endblock %}
 

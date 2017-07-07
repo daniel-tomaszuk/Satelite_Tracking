@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <script type="text/javascript">
             {% comment %}
-                <!--global js variables!-->
+                <!--global js variables! make REST API instead-->
             {% endcomment %}
             sats_json = {{ sats_json|safe }};
             sats_hist_json = {{ sats_hist_json|safe }};
@@ -25,10 +25,7 @@
     </body>
 </html>
 
-
-
 {% comment %}
-<!--Not safe way! TO DO: make it safe.-->
-        widget.init(sats_json);
-var sats_json = "{{ sats_json }}";
+<!--widget.init(sats_json);-->
+<!--var sats_json = "{{ sats_json }}";-->
 {% endcomment %}

@@ -87,28 +87,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 satHistIcon.css('display', '');
 
                 // TO DO: draw lines
-                var c = document.getElementById("box");
-                var context = c.getContext("2d");
-                    context.beginPath();
-                    context.moveTo(0,0);
-                    context.lineTo(300,150);
-                    context.stroke();
-
             };
 
         };
     };
-
-
-
-
-
-
-
-
-
-
-
 
 //#################################################################
     console.log();

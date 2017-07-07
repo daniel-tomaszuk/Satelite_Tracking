@@ -5,10 +5,14 @@
         <li>Nazwa: {{ agency.name}}</li>
         <li>Akronim: {{ agency.acronym }}</li>
         <li>Kraj: {{ agency.country }}</li>
-        <li>Może wystrzelić satelitę: {{ agency.launch_capable }}</li>
+        {% if agency.launch_capable %}
+            <li>Może wystrzelić satelitę: TAK</li>
+        {% else %}
+            <li>Może wystrzelić satelitę: NIE</li>
+        {% endif %}
     </ul>
-    <input type="button" onclick="location.href='/satellites';"
-           value="Lista satelitów"/>
+    <input type="button" onclick="location.href='/space_agencies';"
+           value="Lista agencji"/>
     <h2>Lista obiektów agencji:</h2>
     {% for satellite in satellites %}
         <p><a href="/satellites/{{ satellite.id }}">{{ satellite.name }}</a></p>
