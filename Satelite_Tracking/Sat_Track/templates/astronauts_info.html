@@ -6,5 +6,7 @@
     <p><a href="/space_agencies/{{ agency.id }}">{{ agency.acronym }}</a></p>
     <h2>Satelita:</h2>
     <p><a href="/satellites/{{ satellite.pk }}">{{ satellite.name }}</a></p>
+    <input type="button" onclick="location.href='/astronauts';"
+           value="Lista astronautów"/>
 {% endblock %}
 

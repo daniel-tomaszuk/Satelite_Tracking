@@ -2,55 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import *
 from django.views.generic.edit import *
-
 from .models import *
-
-
 import kronos
 
 import json
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
-
 from django.core.exceptions import ObjectDoesNotExist
-
 from pyorbital.orbital import Orbital
 from datetime import datetime
-""" Not working for now:
-'CloudSat',
-'CryoSat 2',
-'CSK 1',
-'CSK 2',
-'CSK 3',
-'CSK 4',
-'DMSP F15',
-'DMSP F16',
-'DMSP F17',
-'DMSP F18',
-'DMSP F19',
-'EOS Aqua',
-'EOS Aura',
-'EOS Terra',
-'FY 2D',
-'FY 2E',
-'FY 2F',
-'FY 2G',
-'FY 3A',
-'FY 3B',
-'FY 3C',
-'GOES 13',
-'GOES 14',
-'GOES 15',
-'Himawari 6',
-'Himawari 7',
-'Himawari 8',
-'INSAT 3A',
-'INSAT 3C',
-'INSAT 3D',
-'JASON 2',
-'Kalpana 1',
-"""
-
 
 SAT_NAME = [
 'ALOS-2',
@@ -81,15 +41,13 @@ SAT_NAME = [
 
 # manage.py installtasks
 # You can review the crontab with a crontab -l command
-@kronos.register('* * * * *')
+@kronos.register('* * * * *')  # every minute
 def actuate_sats():
     for name in SAT_NAME:
         try:
             orb = Orbital(name)
             now = datetime.utcnow()
-            # Get normalized position and velocity of the satellite:
-            # normal_position = orb.get_position(now)
-            # Get longitude, latitude and altitude of the satellite:
+            # Get longitude, latitude and altitude of the satellite
             geo_position = orb.get_lonlatalt(now)
             print("Found {} - {}".format(name, geo_position))
             try:
@@ -120,27 +78,42 @@ def actuate_sats():
                                                alti=geo_position[2]
                                                )
                 sat.save()
-
+        # if there is no satellite with such name in sources
         except (KeyError, NotImplementedError):
-            print('No satellite name: {}'.format(name))
+            print('No satellite name found in the sources: {}'.format(name))
 
 
 class Map(View):
-    # pass
     def get(self, request):
-        # satellites = Satellite.objects.get(pk=11)
-        # satellites = Satellite.objects.filter(pk__in=[11, 13])
-        satellites = Satellite.objects.all()
-        # sats_json = serializers.serialize('json',
-        # Satellite.objects.filter(pk__in=[11, 13]))
-        sats_json = serializers.serialize('json', Satellite.objects.all())
+
+        # on get - show map without satellites
+        context = {
+            "satellites": "",
+            "sats_json": "{}",
+            "sats_hist_json": "{}",
+        }
+        return render(request, "map.html", context)
+
+    def post(self, request):
+        sat_list = []
+        for sat_name in SAT_NAME:
+            name = request.POST.get(sat_name)
+            if name:
+                sat_list.append(name)
+        # get chosen satellites (from satellites template)
+        satellites = Satellite.objects.filter(name__in=sat_list)
+        # make json out of chosen satellites
+        sats_json = serializers.serialize('json', satellites)
+
         # get id of history objects related to satellite
         hist_id = []
+        # for every chosen satellite
         for sat in satellites:
+            # take every history instance id
             hist_list_id = sat.hist.all()
             for hist in hist_list_id:
                 hist_id.append(hist.id)
-
+        # make json out of history instances
         sats_hist_json = serializers.serialize('json',
                          SatHistory.objects.filter(pk__in=hist_id))
 
@@ -163,7 +136,6 @@ class Satellites(View):
 
 
 class SatellitesInfo(View):
-
     def get(self, request, sat_id):
         satellite = Satellite.objects.get(pk=sat_id)
         sat_history = SatHistory.objects.filter(name=
@@ -177,8 +149,6 @@ class SatellitesInfo(View):
             "agency": agency,
         }
         return render(request, "satellite_info.html", context)
-
-
 
 
 class UpdateSatellites(UpdateView):
@@ -199,7 +169,6 @@ class SpaceAgencies(View):
 
 
 class AgencyInfo(View):
-
     def get(self, request, agency_id):
         agency = SpaceAgency.objects.get(pk=agency_id)
         satellites = agency.satellite_set.all()
@@ -244,7 +213,6 @@ class Astronauts(View):
 
 
 class AstronautsInfo(View):
-
     def get(self, request, astr_id):
         astronaut = Astronaut.objects.get(pk=astr_id)
         agency = astronaut.agency
@@ -265,6 +233,7 @@ class AddAstronauts(CreateView):
 
 
 class UpdateAstronauts(UpdateView):
+
     model = Astronaut
     template_name = "astronauts_update_form.html"
     fields = ['first_name', 'last_name', "agency", "satellite"]
@@ -275,17 +244,5 @@ class DeleteAstronauts(DeleteView):
     model = Astronaut
     template_name = "astronauts_confirm_delete.html"
     success_url = '/astronauts'
-
-
-
-
-
-
-
-
-
-
-
-
 
 

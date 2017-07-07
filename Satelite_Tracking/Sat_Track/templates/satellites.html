@@ -1,18 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Lista znalezionych satelitów:</h1>
-    <ul>
+    <table>
         {% for satellite in satellites %}
-            <li><a href="/satellites/{{ satellite.pk }}">Nazwa: <b>{{ satellite.name }}</b></a> </li>
+            <tr>
+                <td>
+                    <a href="/satellites/{{ satellite.pk }}">
+                    <b>{{ satellite.name }}</b></a>
+                </td>
+                <td>
+                    <input type="checkbox" name="{{ satellite.name }}"
+                           value="{{ satellite.name }}"
+                           id="{{ satellite.name }}"
+                           form="satellite_form">pokaż na mapie
+                </td>
+            </tr>
             {% comment %}
             <!--<li>Długość geograficzna: {{ satellite.longi }}</li>-->
             <!--<li>Szerokość geograficzna : {{ satellite.lati }}</li>-->
             <!--<li>Wysokość n.p.m.: {{ satellite.alti }}km</li>-->
             {% endcomment %}
         {% endfor %}
-    </ul>
+    </table>
+
+    <form id="satellite_form" action="{% url 'map' %}" method="post">
+		{%	csrf_token	%}
+        <!--<input type="submit" value="Pokaż mapę">-->
+    </form>
     <input type="button" onclick="location.href='/space_agencies';" value="Agencje Kosmiczne"/>
     <input type="button" onclick="location.href='/astronauts';" value="Astronauci" />
-    <input type="button" onclick="location.href='/map';" value="Mapa Satelitów" />
+    <input type="submit" value="Mapa Satelitów" form="satellite_form" />
 {% endblock %}
 

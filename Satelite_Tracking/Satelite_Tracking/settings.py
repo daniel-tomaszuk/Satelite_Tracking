@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Sat_Track',
     'kronos',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
