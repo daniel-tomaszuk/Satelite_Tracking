@@ -22,17 +22,15 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^map', Map.as_view(), name="map"),
 
-
-
-    url(r'^astronauts/(?P<astr_id>(\d)+)', AstronautsInfo.as_view(),
+    url(r'^personnel/(?P<astr_id>(\d)+)', PersonnelInfo.as_view(),
         name="astr-info"),
-    url(r'^astronauts', Astronauts.as_view(), name="astr-all"),
+    url(r'^personnel', AllPersonnel.as_view(), name="astr-all"),
 
-    url(r'^update_astronauts/(?P<pk>(\d)+)', UpdateAstronauts.as_view(),
+    url(r'^update_personnel/(?P<pk>(\d)+)', UpdatePersonnel.as_view(),
         name="astr-update"),
-    url(r'^delete_astronauts/(?P<pk>(\d)+)', DeleteAstronauts.as_view(),
+    url(r'^delete_personnel/(?P<pk>(\d)+)', DeletePersonnel.as_view(),
         name="astr-delete"),
-    url(r'^add_astronauts', AddAstronauts.as_view(), name="astr-add"),
+    url(r'^add_personnel', AddPersonnel.as_view(), name="astr-add"),
 
 
 

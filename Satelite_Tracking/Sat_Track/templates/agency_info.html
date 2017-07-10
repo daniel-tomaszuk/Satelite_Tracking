@@ -2,46 +2,46 @@
 {% block content %}
     <h1><b>{{ agency.name }}</b></h1>
     <ul>
-        <li>Nazwa: {{ agency.name}}</li>
-        <li>Akronim: {{ agency.acronym }}</li>
-        <li>Kraj: {{ agency.country }}</li>
+        <li>Name: {{ agency.name}}</li>
+        <li>Acronym: {{ agency.acronym }}</li>
+        <li>Country: {{ agency.country }}</li>
         {% if agency.launch_capable %}
-            <li>Może wystrzelić satelitę: TAK</li>
+            <li>Is able to lunch: YES</li>
         {% else %}
-            <li>Może wystrzelić satelitę: NIE</li>
+            <li>Is able to lunch: NO</li>
         {% endif %}
     </ul>
     <input type="button" onclick="location.href='/space_agencies';"
-           value="Lista agencji"/>
-    <h2>Lista obiektów agencji:</h2>
+           value="Agency list"/>
+    <h2>List of agency objects:</h2>
     {% for satellite in satellites %}
         <p><a href="/satellites/{{ satellite.id }}">{{ satellite.name }}</a></p>
     {% empty %}
-        <p>Brak! {{ agency.name }} can not into Space!</p>
+        <p>None! {{ agency.name }} can not into Space!</p>
     {% endfor %}
 
-    <h2>Lista astronautów:</h2>
+    <h2>Personnel list:</h2>
     <table border="solid">
         <tr>
-            <th>Imię</th>
-            <th>Nazwisko</th>
-            <th>Obiekt</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Object</th>
         </tr>
-        {% for astronaut in astronauts %}
+        {% for person in personnel %}
         <tr>
-            <td>{{ astronaut.first_name }}</td>
-            <td>{{ astronaut.last_name }}</td>
+            <td>{{ person.first_name }}</td>
+            <td>{{ person.last_name }}</td>
             <td>
-                <a href="/satellites/{{ astronaut.satellite.id }}">
-                    {{ astronaut.satellite.name }}
+                <a href="/satellites/{{ personnel.satellite.id }}">
+                    {{ person.satellite.name }}
                 </a>
             </td>
         </tr>
         {% empty %}
         <tr>
-            <td>Brak!</td>
-            <td>Brak!</td>
-            <td>Brak!</td>
+            <td>None!</td>
+            <td>None!</td>
+            <td>None!</td>
         </tr>
         {% endfor %}
     </table>

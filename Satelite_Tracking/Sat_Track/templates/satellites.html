@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Lista znalezionych satelitów:</h1>
+    <h1>List of found satellites:</h1>
     <table>
         {% for satellite in satellites %}
             <tr>
@@ -12,14 +12,9 @@
                     <input type="checkbox" name="{{ satellite.name }}"
                            value="{{ satellite.name }}"
                            id="{{ satellite.name }}"
-                           form="satellite_form">pokaż na mapie
+                           form="satellite_form">Show on world map
                 </td>
             </tr>
-            {% comment %}
-            <!--<li>Długość geograficzna: {{ satellite.longi }}</li>-->
-            <!--<li>Szerokość geograficzna : {{ satellite.lati }}</li>-->
-            <!--<li>Wysokość n.p.m.: {{ satellite.alti }}km</li>-->
-            {% endcomment %}
         {% endfor %}
     </table>
 
@@ -27,8 +22,10 @@
 		{%	csrf_token	%}
         <!--<input type="submit" value="Pokaż mapę">-->
     </form>
-    <input type="button" onclick="location.href='/space_agencies';" value="Agencje Kosmiczne"/>
-    <input type="button" onclick="location.href='/astronauts';" value="Astronauci" />
-    <input type="submit" value="Mapa Satelitów" form="satellite_form" />
+    <input type="button" onclick="location.href='/space_agencies';"
+           value="Space agencies"/>
+    <input type="button" onclick="location.href='/personnel';"
+           value="Personnel" />
+    <input type="submit" value="World Map" form="satellite_form" />
 {% endblock %}
 

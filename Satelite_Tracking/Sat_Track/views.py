@@ -5,6 +5,8 @@ from django.views.generic.edit import *
 from .models import *
 import kronos
 
+from django.http import Http404
+
 # import json
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
@@ -206,46 +208,49 @@ class DeleteSpaceAgency(DeleteView):
     success_url = '/space_agencies'
 
 
-class Astronauts(View):
+class AllPersonnel(View):
     def get(self, request):
         # actuate_sats()
-        astronauts = Astronaut.objects.all()
+        # try:
+        personnel = Personnel.objects.all()
+        # except AttributeError:
+        #     raise Http404
         context = {
-            "astronauts": astronauts,
+            "personnel": personnel,
         }
-        return render(request, "astronauts.html", context)
+        return render(request, "personnel.html", context)
 
 
-class AstronautsInfo(View):
+class PersonnelInfo(View):
     def get(self, request, astr_id):
-        astronaut = Astronaut.objects.get(pk=astr_id)
-        agency = astronaut.agency
-        satellite = astronaut.satellite
+        personnel = Personnel.objects.get(pk=astr_id)
+        agency = personnel.agency
+        satellite = personnel.satellite
         context = {
-            "astronaut": astronaut,
+            "personnel": personnel,
             "satellite": satellite,
             "agency": agency,
         }
-        return render(request, "astronauts_info.html", context)
+        return render(request, "personnel_info.html", context)
 
 
-class AddAstronauts(CreateView):
-    model = Astronaut
-    template_name = "add_astronauts_form.html"
+class AddPersonnel(CreateView):
+    model = Personnel
+    template_name = "add_personnel_form.html"
     fields = ['first_name', 'last_name', 'agency', 'satellite']
-    success_url = '/astronauts'
+    success_url = '/personnel'
 
 
-class UpdateAstronauts(UpdateView):
-    model = Astronaut
-    template_name = "astronauts_update_form.html"
+class UpdatePersonnel(UpdateView):
+    model = Personnel
+    template_name = "personnel_update_form.html"
     fields = ['first_name', 'last_name', "agency", "satellite"]
-    success_url = '/astronauts'
+    success_url = '/personnel'
 
 
-class DeleteAstronauts(DeleteView):
-    model = Astronaut
-    template_name = "astronauts_confirm_delete.html"
-    success_url = '/astronauts'
+class DeletePersonnel(DeleteView):
+    model = Personnel
+    template_name = "personnel_confirm_delete.html"
+    success_url = '/personnel'
 
 

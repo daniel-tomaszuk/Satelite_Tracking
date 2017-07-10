@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>Lista agencji kosmicznych:</h1>
+    <h1>Space agencies list:</h1>
     <ul>
         {% for agency in agencies %}
             <li>
@@ -9,18 +9,18 @@
                 </a>
                 <input type="button" onclick=
                         "location.href='/update_spaceagency/{{ agency.id }}'"
-                value="Modyfikuj" />
+                value="Modify" />
                 <input type="button" onclick=
                         "location.href='/delete_spaceagency/{{ agency.id }}'"
-                value="Usuń" />
+                value="Delete" />
             </li>
             <br>
         {% endfor %}
         <br>
         <input type="button" onclick="location.href='/add_space_agency';"
-               value="Dodaj" />
+               value="Add" />
         <input type="button" onclick="location.href='/satellites';"
-               value="Lista Satelitów" />
+               value="Satellites List" />
     </ul>
 {% endblock %}
 

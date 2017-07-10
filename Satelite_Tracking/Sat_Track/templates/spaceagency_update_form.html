@@ -3,9 +3,10 @@
 
 <form action="" method="post">
 		{%	csrf_token	%}
-		<h1>Modyfikacja agencji kosmicznej! </h1>
+		<h1>Space agency modification! </h1>
 		{{	form.as_p	}}
-		<input	type="submit" value="Zapisz">
-		<input type="button" onclick="location.href='/space_agencies';" value="Anuluj"/>
+		<input	type="submit" value="Save">
+		<input type="button" onclick="location.href='/space_agencies';"
+			   value="Cancel"/>
 </form>
 {% endblock %}

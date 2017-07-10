@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>{{ personnel.first_name }} {{ personnel.last_name }}</h1>
+
+    <h2>Space agency:</h2>
+    <p><a href="/space_agencies/{{ agency.id }}">{{ agency.acronym }}</a></p>
+    <h2>Satellite:</h2>
+    <p><a href="/satellites/{{ satellite.pk }}">{{ satellite.name }}</a></p>
+    <input type="button" onclick="location.href='/personnel';"
+           value="Personnel list"/>
+{% endblock %}
+

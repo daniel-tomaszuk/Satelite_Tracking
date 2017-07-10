@@ -3,10 +3,11 @@ from django_countries.fields import CountryField
 
 
 class SpaceAgency(models.Model):
-    name = models.CharField(max_length=128, verbose_name='Nazwa')
-    acronym = models.CharField(max_length=128, verbose_name='Akronim')
-    country = CountryField(verbose_name='Państwo')
-    launch_capable = models.BooleanField(default=False, verbose_name='Może wystrzelić satelitę')
+    name = models.CharField(max_length=128, verbose_name='Name')
+    acronym = models.CharField(max_length=128, verbose_name='Acronym')
+    country = CountryField(verbose_name='Country')
+    launch_capable = models.BooleanField(default=False,
+                                         verbose_name='Launch Capable')
 
     def __str__(self):
         return "{}".format(self.name)
@@ -39,25 +40,13 @@ class Satellite(models.Model):
         return "{}".format(self.name)
 
 
-class Astronaut(models.Model):
-    first_name = models.CharField(max_length=128, verbose_name='Imię')
-    last_name = models.CharField(max_length=128, verbose_name='Nazwisko')
-    agency = models.ForeignKey(SpaceAgency, verbose_name='Agencja')
-    satellite = models.ForeignKey(Satellite, verbose_name='Obiekt')
+class Personnel(models.Model):
+    first_name = models.CharField(max_length=128, verbose_name='First Name')
+    last_name = models.CharField(max_length=128, verbose_name='Last Name')
+    agency = models.ForeignKey(SpaceAgency, null=True,
+                               verbose_name='Space Agency')
+    satellite = models.ForeignKey(Satellite, null=True, verbose_name='Object')
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
-
-
-
-
-
-
-
-
-
-
-
-
-
 

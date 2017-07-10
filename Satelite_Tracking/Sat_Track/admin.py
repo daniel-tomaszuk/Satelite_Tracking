@@ -14,11 +14,11 @@ class SatHistoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(SpaceAgency)
-class SatHistoryAdmin(admin.ModelAdmin):
+class SpaceAgencyAdmin(admin.ModelAdmin):
     list_display = ("name", "acronym", "country", "launch_capable")
 
 
-@admin.register(Astronaut)
-class SatHistoryAdmin(admin.ModelAdmin):
+@admin.register(Personnel)
+class PersonnelAdmin(admin.ModelAdmin):
     list_display = ("first_name", "last_name", "satellite", "agency")
 
