@@ -16,6 +16,10 @@ document.addEventListener("DOMContentLoaded", function(){
     // loop through actual positions
     // sats_json from map view in django
     for (var i = 0; i < sats_json.length; i++){
+        var point_list = [];
+        // past data points color
+        var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
+
         var satIcon = $('<img />');
         var dataContent = "Longi: "+ (sats_json[i].fields.longi).toFixed(2) +
                           '<br>' +
@@ -67,31 +71,38 @@ document.addEventListener("DOMContentLoaded", function(){
         for (var j=0; j < sats_hist_json.length; j++){
             // find history objects for actual object (i-th object)
             if (sats_hist_json[j].fields.name === sats_json[i].fields.name){
-                var satHistIcon = $('<img />');
-                $(satHistIcon).attr('id', 'SatHistId_'+i);
-                $(satHistIcon).attr('src', 'static/Sat_Track/square.png');
-                $(satHistIcon).attr('alt', 'MySatHist' +
-                                    sats_json[i].fields.name + j);
+                var point = $('<div>');
+                var size = '3px';
+                $(point)
+                    .css('position', 'absolute')
+                    .css('width', size)
+                    .css('height', size)
+                    .css('background-color', color);
 
-                // prepare past position icon
-                $(satHistIcon).css('width', "0.25%");
-                $(satHistIcon).css('height', "0.5%");
-                $(satHistIcon).css('position', 'absolute');
-                $(satHistIcon).css('top','0px');
-                $(satHistIcon).css('left','0px');
-                $(satHistIcon).appendTo($('#box'));
+                $(point).appendTo($('#box'));
                 // count where to put past position icon
                 xPx = scaleX(sats_hist_json[j].fields.longi, positionInfo.width);
                 yPx = scaleY(sats_hist_json[j].fields.lati, positionInfo.height);
                 // put past position icon
-                $(satHistIcon).css('left', xPx+"px");
-                $(satHistIcon).css('top', yPx+"px");
-                $(satHistIcon).css('display', '');
+                $(point).css('left', xPx+"px");
+                $(point).css('top', yPx+"px");
+                $(point).css('display', '');
+
+//                point_list.push([xPx, yPx]);
+
 
                 // TO DO: draw lines - connect data points
+
+//                for (point in point_list){
+
+//                };
+
             };
         };
+
     };
+
+//        console.log(line);
 
 
     var globalX = document.querySelector('#globalX');
