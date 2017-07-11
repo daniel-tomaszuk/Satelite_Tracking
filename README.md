@@ -1,10 +1,10 @@
 # Satellite Tracking Service
 
 Project of simple satellite tracker. External library PyOrbital provides longitude, latitude and altitude of 
-chosen satellites. Program translates geographical positions onto pixel coordinates and marks actual position 
+chosen satellites. Program translates geographical positions into pixel coordinates and marks actual position 
 on the world map. Past positions are saved in the DB so it is possible to check  satellite position on 
 any given time. Positions are updated every minute by means of Kronos. Satellites and past positions are shown 
-with usage of jQuerry.
+with usage of jQuerry and JavaScript.
 
 
 Default localhost sites:
@@ -27,11 +27,14 @@ Default localhost sites:
 - localhost:8000/delete_spaceagency/{id}  → deletes space agency with given {id} in DB
 
 
-- localhost:8000/astronauts  → shows list of astronauts in DB. It is possible to add, remove and 					   
-                               modify every astronaut.
+- localhost:8000/personnel  → shows list of personnel in DB. It is possible to add, remove and 					   
+                               modify every personnel
                                
-- localhost:8000/astronauts/{id}  →shows details about astronaut with given {id} in DB.
+- localhost:8000/personnel/{id}  →shows details about personnel with given {id} in DB
 
-- localhost:8000/update_astronauts/{id}  → shows form for astronaut (with id = {id} in DB) inforamtion update
+- localhost:8000/update_personnel/{id}  → shows form for personnel (with id = {id} in DB) inforamtion update
 
-- localhost:8000/delete_astronauts/{id}  → deletes astronaut with given {id} in DB
+- localhost:8000/delete_personnel/{id}  → deletes personnel with given {id} in DB
+
+- localhost:8000/add_personnel → shows form for adding new personnel
+
