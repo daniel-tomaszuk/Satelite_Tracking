@@ -3,10 +3,52 @@ function scaleX(lati, xMax) {
     return xPx
 };
 
+
 function scaleY(longi, yMax) {
     yPx = -1 * (yMax / 180) * longi + 0.5 * yMax;
     return yPx;
 };
+
+
+function createLineElement(x, y, length, angle) {
+    var line = document.createElement("div");
+    var styles = 'border: 1px solid black; '
+               + 'width: ' + length + 'px; '
+               + 'height: 0px; '
+               + '-moz-transform: rotate(' + angle + 'rad); '
+               + '-webkit-transform: rotate(' + angle + 'rad); '
+               + '-o-transform: rotate(' + angle + 'rad); '
+               + '-ms-transform: rotate(' + angle + 'rad); '
+               + 'position: absolute; '
+               + 'top: ' + y + 'px; '
+               + 'left: ' + x + 'px; ';
+    line.setAttribute('style', styles);
+    return line;
+};
+
+
+function createLine(x1, y1, x2, y2) {
+    var a = x1 - x2,
+        b = y1 - y2,
+        c = Math.sqrt(a * a + b * b);
+
+    var sx = (x1 + x2) / 2,
+        sy = (y1 + y2) / 2;
+
+    var x = sx - c / 2,
+        y = sy;
+
+    var alpha = Math.PI - Math.atan2(-b, a);
+
+    return createLineElement(x, y, c, alpha);
+};
+
+
+
+
+
+
+
 
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -46,8 +88,8 @@ document.addEventListener("DOMContentLoaded", function(){
         xPx = scaleX(sats_json[i].fields.longi, positionInfo.width);
         yPx = scaleY(sats_json[i].fields.lati, positionInfo.height);
         // put the most actual satellite position on map
-        $(satIcon).css('left', xPx + "px");
-        $(satIcon).css('top', yPx + "px");
+        $(satIcon).css('left', xPx - 10 + "px");
+        $(satIcon).css('top', yPx - 20 + "px");
         $(satIcon).css('display', '');
 
         $(satIcon).on('mouseover', function(event){
@@ -88,21 +130,28 @@ document.addEventListener("DOMContentLoaded", function(){
                 $(point).css('top', yPx+"px");
                 $(point).css('display', '');
 
-//                point_list.push([xPx, yPx]);
 
 
-                // TO DO: draw lines - connect data points
-
-//                for (point in point_list){
-
-//                };
-
+                // TO DO: connect all points
+                point_list.push([xPx, yPx]);
             };
+        };
+        console.log(point_list);
+        for (var k=0; k < parseInt((point_list.length)) - 1; k++){
+            console.log(point_list[k][0]);
+
+
+
+
+
+            div.appendChild(createLine(parseInt(point_list[k][0]),
+                                       parseInt(point_list[k][1]),
+                                       parseInt(point_list[k+1][0]),
+                                       parseInt(point_list[k+1][1])));
+
         };
 
     };
-
-//        console.log(line);
 
 
     var globalX = document.querySelector('#globalX');
