@@ -1,11 +1,11 @@
 function scaleX(lati, xMax) {
-    xPx = (xMax / 360) * lati + 0.5 * xMax;
+    var xPx = (xMax / 360) * lati + 0.5 * xMax;
     return xPx
 };
 
 
 function scaleY(longi, yMax) {
-    yPx = -1 * (yMax / 180) * longi + 0.5 * yMax;
+    var yPx = -1 * (yMax / 180) * longi + 0.5 * yMax;
     return yPx;
 };
 
@@ -28,27 +28,20 @@ function createLineElement(x, y, length, angle) {
 
 
 function createLine(x1, y1, x2, y2) {
-    var a = x1 - x2,
-        b = y1 - y2,
-        c = Math.sqrt(a * a + b * b);
+    var a = x1 - x2;
+    var b = y1 - y2;
+    var c = Math.sqrt(a * a + b * b);
 
-    var sx = (x1 + x2) / 2,
-        sy = (y1 + y2) / 2;
+    var sx = (x1 + x2) / 2;
+    var sy = (y1 + y2) / 2;
 
-    var x = sx - c / 2,
-        y = sy;
+    var x = sx - c / 2;
+    var y = sy;
 
     var alpha = Math.PI - Math.atan2(-b, a);
-
     return createLineElement(x, y, c, alpha);
+
 };
-
-
-
-
-
-
-
 
 
 document.addEventListener("DOMContentLoaded", function(){
@@ -130,24 +123,26 @@ document.addEventListener("DOMContentLoaded", function(){
                 $(point).css('top', yPx+"px");
                 $(point).css('display', '');
 
-
-
-                // TO DO: connect all points
                 point_list.push([xPx, yPx]);
             };
         };
-        console.log(point_list);
+
         for (var k=0; k < parseInt((point_list.length)) - 1; k++){
             console.log(point_list[k][0]);
 
+            var x1 = parseInt(point_list[k][0])
+            var y1 = parseInt(point_list[k][1])
+            var x2 = parseInt(point_list[k+1][0])
+            var y2 = parseInt(point_list[k+1][1])
 
+            var dist = Math.sqrt(Math.pow((x1 - x2), 2) +
+                                 Math.pow((y1 - y2), 2));
+            console.log(dist);
 
+            if (dist < 100){
+                div.appendChild(createLine(x1, y1, x2, y2));
+            };
 
-
-            div.appendChild(createLine(parseInt(point_list[k][0]),
-                                       parseInt(point_list[k][1]),
-                                       parseInt(point_list[k+1][0]),
-                                       parseInt(point_list[k+1][1])));
 
         };
 
