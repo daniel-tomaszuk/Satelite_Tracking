@@ -10,9 +10,9 @@ function scaleY(longi, yMax) {
 };
 
 
-function createLineElement(x, y, length, angle) {
+function createLineElement(x, y, length, angle, color) {
     var line = document.createElement("div");
-    var styles = 'border: 1px solid black; '
+    var styles = 'border: 1px solid;'
                + 'width: ' + length + 'px; '
                + 'height: 0px; '
                + '-moz-transform: rotate(' + angle + 'rad); '
@@ -21,13 +21,14 @@ function createLineElement(x, y, length, angle) {
                + '-ms-transform: rotate(' + angle + 'rad); '
                + 'position: absolute; '
                + 'top: ' + y + 'px; '
-               + 'left: ' + x + 'px; ';
+               + 'left: ' + x + 'px; '
+               + 'color:' + color +';';
     line.setAttribute('style', styles);
     return line;
 };
 
 
-function createLine(x1, y1, x2, y2) {
+function createLine(x1, y1, x2, y2, color) {
     var a = x1 - x2;
     var b = y1 - y2;
     var c = Math.sqrt(a * a + b * b);
@@ -39,7 +40,7 @@ function createLine(x1, y1, x2, y2) {
     var y = sy;
 
     var alpha = Math.PI - Math.atan2(-b, a);
-    return createLineElement(x, y, c, alpha);
+    return createLineElement(x, y, c, alpha, color);
 
 };
 
@@ -140,12 +141,9 @@ document.addEventListener("DOMContentLoaded", function(){
             console.log(dist);
 
             if (dist < 100){
-                div.appendChild(createLine(x1, y1, x2, y2));
+                div.appendChild(createLine(x1, y1, x2, y2, color));
             };
-
-
         };
-
     };
 
 
