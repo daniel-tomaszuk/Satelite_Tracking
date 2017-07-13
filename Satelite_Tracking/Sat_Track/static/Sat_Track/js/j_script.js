@@ -8,6 +8,7 @@ function scaleX(lati, xMax){
     return xPx
 };
 
+
 function scaleY(longi, yMax){
     /**
     * Scale geographical longitude into y [px] coordinate.
@@ -20,6 +21,11 @@ function scaleY(longi, yMax){
 
 
 function divPoint(size, color){
+    /**
+    * Create point as DIV tag.
+    * @param {string} size - size of the point. Same as in CSS.
+    * @param {string} color - Color of the point. Same as in CSS.
+    */
     var point = $('<div>');
     var size = '3px';
     $(point)
@@ -28,7 +34,8 @@ function divPoint(size, color){
         .css('height', size)
         .css('background-color', color);
     return $(point)
-}
+};
+
 
 function createLineElement(x, y, length, angle, color){
     /**
@@ -181,7 +188,6 @@ document.addEventListener("DOMContentLoaded", function(){
         $(legendText).css('font-weight', 'bold');
         $(legendText).css('display', 'inline');
         $(legendText).appendTo($(legend));
-
 
     };
 
