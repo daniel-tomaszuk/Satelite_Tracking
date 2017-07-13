@@ -26,6 +26,15 @@
            value="Space agencies"/>
     <input type="button" onclick="location.href='/personnel';"
            value="Personnel" />
+    <select form="satellite_form" name="the_date">
+        {% for date in uniq_date %}
+            <option value="{{ date }}">{{ date }}</option>
+        {% endfor %}
+    </select>
+    {% comment %}
+    <!--POST into url: map. Check Map View post method-->
+    {% endcomment %}
     <input type="submit" value="World Map" form="satellite_form" />
+
 {% endblock %}
 

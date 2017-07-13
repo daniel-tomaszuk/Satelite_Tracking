@@ -43,7 +43,7 @@ SAT_NAME = [
 
 # manage.py installtasks
 # You can review the crontab with a crontab -l command
-@kronos.register('* * * * *')  # every minute
+# @kronos.register('* * * * *')  # every minute
 def actuate_sats():
     """
     Use external library to get positions of requested satellites.
@@ -92,6 +92,7 @@ def actuate_sats():
 
 
 class Map(View):
+
     def get(self, request):
         # on get - show map without satellites
         context = {
@@ -103,6 +104,8 @@ class Map(View):
 
     def post(self, request):
         sat_list = []
+        # date selected in satellite display form (url: sat-all, Satellites")
+        the_date = request.POST.get('the_date')
         for sat_name in SAT_NAME:
             name = request.POST.get(sat_name)
             if name:
@@ -115,10 +118,14 @@ class Map(View):
         hist_id = []
         # for every chosen satellite
         for sat in satellites:
-            # take every history instance id
-            hist_list_id = sat.hist.all()
-            for hist in hist_list_id:
-                hist_id.append(hist.id)
+            # take every history instance (for given satellite) id
+            hist_list = sat.hist.all()
+            for hist in hist_list:
+                if hist.date.date().isoformat() == the_date:
+                    hist_id.append(hist.id)
+
+
+
         # make json out of history instances
         sats_hist_json = serializers.serialize('json',
                          SatHistory.objects.filter(pk__in=hist_id))
@@ -135,8 +142,24 @@ class Satellites(View):
     def get(self, request):
         # actuate_sats()
         satellites = Satellite.objects.all()
+        # tables for unique dates extraction (for template)
+        dates = []
+        uniq_dates = []
+        # get history of one satellite (since data is collected for all the
+        # satellites - all satellites will have the same dates
+        history = SatHistory.objects.filter(name='ALOS-2')
+        # get all dates in the history as strings
+        for date in history:
+            dates.append(date.date.date().isoformat())
+        # get unique dates
+        for date in dates:
+            if date not in uniq_dates:
+                uniq_dates.append(date)
+        uniq_dates = uniq_dates[::-1]
+
         context = {
-            "satellites": satellites
+            "satellites": satellites,
+            "uniq_date": uniq_dates,
         }
         return render(request, "satellites.html", context)
 
