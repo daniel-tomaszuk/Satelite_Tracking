@@ -1,4 +1,4 @@
-function scaleX(lati, xMax) {
+function scaleX(lati, xMax){
     /**
     * Scale geographical latitude into x [px] coordinate.
     * @param {number} lati - The latitude value in degrees.
@@ -8,7 +8,7 @@ function scaleX(lati, xMax) {
     return xPx
 };
 
-function scaleY(longi, yMax) {
+function scaleY(longi, yMax){
     /**
     * Scale geographical longitude into y [px] coordinate.
     * @param {number} longi - The longitude value in degrees.
@@ -19,7 +19,18 @@ function scaleY(longi, yMax) {
 };
 
 
-function createLineElement(x, y, length, angle, color) {
+function divPoint(size, color){
+    var point = $('<div>');
+    var size = '3px';
+    $(point)
+        .css('position', 'absolute')
+        .css('width', size)
+        .css('height', size)
+        .css('background-color', color);
+    return $(point)
+}
+
+function createLineElement(x, y, length, angle, color){
     /**
     * Draws line element on the image.
     * @param {number} x - Absolute x position of the line beginning.
@@ -75,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function(){
     positionInfo = div.getBoundingClientRect();
     // loop through actual positions
     // sats_json from map view in django
+    // main loop for every chosen satellite
     for (var i = 0; i < sats_json.length; i++){
         var point_list = [];
         // past data points color
@@ -131,14 +143,7 @@ document.addEventListener("DOMContentLoaded", function(){
         for (var j=0; j < sats_hist_json.length; j++){
             // find history objects for actual object (i-th object)
             if (sats_hist_json[j].fields.name === sats_json[i].fields.name){
-                var point = $('<div>');
-                var size = '3px';
-                $(point)
-                    .css('position', 'absolute')
-                    .css('width', size)
-                    .css('height', size)
-                    .css('background-color', color);
-
+                var point = divPoint('3px', color);
                 $(point).appendTo($('#box'));
                 // count where to put past position icon
                 xPx = scaleX(sats_hist_json[j].fields.longi, positionInfo.width);
@@ -147,44 +152,48 @@ document.addEventListener("DOMContentLoaded", function(){
                 $(point).css('left', xPx+"px");
                 $(point).css('top', yPx+"px");
                 $(point).css('display', '');
-
+                // push history x and y coordinates in the coordinates list
                 point_list.push([xPx, yPx]);
             };
         };
 
         for (var k=0; k < parseInt((point_list.length)) - 1; k++){
-            console.log(point_list[k][0]);
+//            console.log(point_list[k][0]);
 
             var x1 = parseInt(point_list[k][0])
             var y1 = parseInt(point_list[k][1])
             var x2 = parseInt(point_list[k+1][0])
             var y2 = parseInt(point_list[k+1][1])
-
+            // count distance between two points
             var dist = Math.sqrt(Math.pow((x1 - x2), 2) +
                                  Math.pow((y1 - y2), 2));
-            console.log(dist);
-
+            // draw line if the distance is close enough
             if (dist < 100){
                 div.appendChild(createLine(x1, y1, x2, y2, color));
             };
         };
+
+        // legend
+        var legend = $('#legend');
+        var legendText = $('<p>');
+        $(legendText).text(sats_json[i].fields.name + " ");
+        $(legendText).css('color', color);
+        $(legendText).css('font-weight', 'bold');
+        $(legendText).css('display', 'inline');
+        $(legendText).appendTo($(legend));
+
+
     };
 
-
     var globalX = document.querySelector('#globalX');
-    console.log(globalX);
     var globalY = document.querySelector('#globalY');
-
     var localX = document.querySelector('#localX');
     var localY = document.querySelector('#localY');
 
-//    console.log(div);
-//    console.log(globalX);
     div.addEventListener('mousemove', function(event){
        localX.innerHTML = event.clientX - div.offsetLeft;
        localY.innerHTML = event.clientY - div.offsetTop;
     });
-
     document.addEventListener('mousemove', function(event){
         globalX.innerHTML = event.screenX;
         globalY.innerHTML = event.screenY;
