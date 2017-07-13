@@ -1,16 +1,33 @@
 function scaleX(lati, xMax) {
+    /**
+    * Scale geographical latitude into x [px] coordinate.
+    * @param {number} lati - The latitude value in degrees.
+    * @param {number} xMax - The max X dimension of world map image.
+    */
     var xPx = (xMax / 360) * lati + 0.5 * xMax;
     return xPx
 };
 
-
 function scaleY(longi, yMax) {
+    /**
+    * Scale geographical longitude into y [px] coordinate.
+    * @param {number} longi - The longitude value in degrees.
+    * @param {number} yMax - The max Y dimension of map image.
+    */
     var yPx = -1 * (yMax / 180) * longi + 0.5 * yMax;
     return yPx;
 };
 
 
 function createLineElement(x, y, length, angle, color) {
+    /**
+    * Draws line element on the image.
+    * @param {number} x - Absolute x position of the line beginning.
+    * @param {number} y - Absolute y position of the line beginning.
+    * @param {number} length - Length of the line.
+    * @param {number} angle - Angle of the line.
+    * @param {string} color - Color of the line.
+    */
     var line = document.createElement("div");
     var styles = 'border: 1px solid;'
                + 'width: ' + length + 'px; '
@@ -29,6 +46,14 @@ function createLineElement(x, y, length, angle, color) {
 
 
 function createLine(x1, y1, x2, y2, color) {
+    /**
+    * Counts parameters required for line drawing.
+    * @param {number} x1 - Absolute x position of the line beginning.
+    * @param {number} y1 - Absolute y position of the line beginning.
+    * @param {number} x2 - Absolute x position of the line ending.
+    * @param {number} y2 - Absolute y position of the line ending.
+    * @param {string} color - Color of the line.
+    */
     var a = x1 - x2;
     var b = y1 - y2;
     var c = Math.sqrt(a * a + b * b);
@@ -41,7 +66,6 @@ function createLine(x1, y1, x2, y2, color) {
 
     var alpha = Math.PI - Math.atan2(-b, a);
     return createLineElement(x, y, c, alpha, color);
-
 };
 
 
