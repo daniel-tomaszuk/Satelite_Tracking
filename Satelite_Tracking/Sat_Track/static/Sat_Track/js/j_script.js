@@ -91,10 +91,15 @@ document.addEventListener("DOMContentLoaded", function(){
     var div = document.querySelector('#box');
     // get dimensions of map image
     positionInfo = div.getBoundingClientRect();
+
+
     // loop through actual positions
     // sats_json from map view in django
     // main loop for every chosen satellite
     for (var i = 0; i < sats_json.length; i++){
+        // history points of i-th satellite
+
+
         var point_list = [];
         // past data points color
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
@@ -106,9 +111,10 @@ document.addEventListener("DOMContentLoaded", function(){
                           '<br>' +
                           "Alti: " + (sats_json[i].fields.alti.toFixed(2))
 
-        $(satIcon).attr('id', 'SatId_'+i);
+        $(satIcon).attr('class', 'pop');
+        $(satIcon).attr('id', 'SatId_' + i);
         $(satIcon).attr('src', 'static/Sat_Track/sat.png');
-        $(satIcon).attr('alt', 'Sat'+i);
+        $(satIcon).attr('alt', 'Sat' + i);
         $(satIcon).attr('data-toggle', 'popover');
         $(satIcon).attr('data-trigger', 'focus');
         $(satIcon).attr('data-html', true);
@@ -120,52 +126,46 @@ document.addEventListener("DOMContentLoaded", function(){
         $(satIcon).css('position', 'absolute');
         $(satIcon).css('top', '0px');
         $(satIcon).css('left', '0px');
-        $(satIcon).appendTo($('#box'));
+
+        // put the most actual satellite position on map
         // count where to put the most actual satellite position
         xPx = scaleX(sats_json[i].fields.longi, positionInfo.width);
         yPx = scaleY(sats_json[i].fields.lati, positionInfo.height);
-        // put the most actual satellite position on map
         $(satIcon).css('left', xPx - 10 + "px");
         $(satIcon).css('top', yPx - 20 + "px");
         $(satIcon).css('display', '');
-
-        $(satIcon).on('mouseover', function(event){
-            setTimeout(function(){
-                satIcon.popover('show');
-            }, 100);
-
-            $(satIcon).on('shown.bs.popover', function(){
-                    $(document).on('click.popover', function() {
-                        satIcon.popover('hide');
-                    });
-            });
-
-            $(satIcon).on('hide.bs.popover', function(){
-                    $(document).off('click.popover');
-            });
-        });
+        $(satIcon).css('z-index', '10');
+        $(satIcon).appendTo($('#box'));
 
 
-        // history points of i-th satellite
         for (var j=0; j < sats_hist_json.length; j++){
-            // find history objects for actual object (i-th object)
-            if (sats_hist_json[j].fields.name === sats_json[i].fields.name){
-                var point = divPoint('3px', color);
-                $(point).appendTo($('#box'));
-                // count where to put past position icon
-                xPx = scaleX(sats_hist_json[j].fields.longi, positionInfo.width);
-                yPx = scaleY(sats_hist_json[j].fields.lati, positionInfo.height);
-                // put past position icon
-                $(point).css('left', xPx+"px");
-                $(point).css('top', yPx+"px");
-                $(point).css('display', '');
-                // push history x and y coordinates in the coordinates list
-                point_list.push([xPx, yPx]);
-            };
+        // find history objects for actual object (i-th object)
+        if (sats_hist_json[j].fields.name === sats_json[i].fields.name){
+            var point = divPoint('3px', color);
+            $(point).appendTo($('#box'));
+            // count where to put past position icon
+            xPx = scaleX(sats_hist_json[j].fields.longi, positionInfo.width);
+            yPx = scaleY(sats_hist_json[j].fields.lati, positionInfo.height);
+            // put past position icon
+            $(point).css('left', xPx+"px");
+            $(point).css('top', yPx+"px");
+            $(point).css('display', '');
+            // push history x and y coordinates in the coordinates list
+            point_list.push([xPx, yPx]);
         };
+    };
+
+
+
+
+
+
+
+
+
 
         for (var k=0; k < parseInt((point_list.length)) - 1; k++){
-//            console.log(point_list[k][0]);
+        //console.log(point_list[k][0]);
 
             var x1 = parseInt(point_list[k][0])
             var y1 = parseInt(point_list[k][1])
@@ -190,6 +190,23 @@ document.addEventListener("DOMContentLoaded", function(){
         $(legendText).appendTo($(legend));
 
     };
+    // popovers
+    $(".pop").each(function() {
+        $(this).on('mouseover', function(event){
+            $(this).popover('show');
+        });
+
+        $(this).on('mouseout', function(){
+            $(this).popover('hide');
+        });
+
+        $(this).on('hide.bs.popover', function(){
+            $(document).off('click.popover');
+        });
+    });
+
+
+
 
     var globalX = document.querySelector('#globalX');
     var globalY = document.querySelector('#globalY');
@@ -204,6 +221,8 @@ document.addEventListener("DOMContentLoaded", function(){
         globalX.innerHTML = event.screenX;
         globalY.innerHTML = event.screenY;
     });
+
+
 
 });
 
