@@ -1,4 +1,4 @@
-function scaleX(lati, xMax){
+var scaleX = function(lati, xMax){
     /**
     * Scale geographical latitude into x [px] coordinate.
     * @param {number} lati - The latitude value in degrees.
@@ -9,7 +9,7 @@ function scaleX(lati, xMax){
 };
 
 
-function scaleY(longi, yMax){
+var scaleY = function(longi, yMax){
     /**
     * Scale geographical longitude into y [px] coordinate.
     * @param {number} longi - The longitude value in degrees.
@@ -20,7 +20,7 @@ function scaleY(longi, yMax){
 };
 
 
-function divPoint(size, color){
+var divPoint = function(size, color){
     /**
     * Create point as DIV tag.
     * @param {string} size - size of the point. Same as in CSS.
@@ -37,7 +37,7 @@ function divPoint(size, color){
 };
 
 
-function createLineElement(x, y, length, angle, color){
+var createLineElement = function(x, y, length, angle, color){
     /**
     * Draws line element on the image.
     * @param {number} x - Absolute x position of the line beginning.
@@ -63,19 +63,21 @@ function createLineElement(x, y, length, angle, color){
 };
 
 
-function createLine(x1, y1, x2, y2, color) {
+var createLine = function(x1, y1, x2, y2, color) {
     /**
     * Counts parameters required for line drawing.
+    * https://stackoverflow.com/questions/4270485/drawing-lines-on-html-page
     * @param {number} x1 - Absolute x position of the line beginning.
     * @param {number} y1 - Absolute y position of the line beginning.
     * @param {number} x2 - Absolute x position of the line ending.
     * @param {number} y2 - Absolute y position of the line ending.
     * @param {string} color - Color of the line.
     */
+    // a^2 + b^2 = c^2
     var a = x1 - x2;
     var b = y1 - y2;
     var c = Math.sqrt(a * a + b * b);
-
+    // coordinate of the middle point in c line
     var sx = (x1 + x2) / 2;
     var sy = (y1 + y2) / 2;
 
@@ -90,16 +92,11 @@ function createLine(x1, y1, x2, y2, color) {
 document.addEventListener("DOMContentLoaded", function(){
     var div = document.querySelector('#box');
     // get dimensions of map image
-    positionInfo = div.getBoundingClientRect();
-
-
+    var positionInfo = div.getBoundingClientRect();
     // loop through actual positions
     // sats_json from map view in django
     // main loop for every chosen satellite
     for (var i = 0; i < sats_json.length; i++){
-        // history points of i-th satellite
-
-
         var point_list = [];
         // past data points color
         var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
@@ -137,32 +134,25 @@ document.addEventListener("DOMContentLoaded", function(){
         $(satIcon).css('z-index', '10');
         $(satIcon).appendTo($('#box'));
 
-
+        // history points of i-th satellite
         for (var j=0; j < sats_hist_json.length; j++){
         // find history objects for actual object (i-th object)
-        if (sats_hist_json[j].fields.name === sats_json[i].fields.name){
-            var point = divPoint('3px', color);
-            $(point).appendTo($('#box'));
-            // count where to put past position icon
-            xPx = scaleX(sats_hist_json[j].fields.longi, positionInfo.width);
-            yPx = scaleY(sats_hist_json[j].fields.lati, positionInfo.height);
-            // put past position icon
-            $(point).css('left', xPx+"px");
-            $(point).css('top', yPx+"px");
-            $(point).css('display', '');
-            // push history x and y coordinates in the coordinates list
-            point_list.push([xPx, yPx]);
-        };
+            if (sats_hist_json[j].fields.name === sats_json[i].fields.name){
+                var point = divPoint('3px', color);
+                $(point).appendTo($('#box'));
+                // count where to put past position icon
+                var xPx = scaleX(sats_hist_json[j].fields.longi,
+                                 positionInfo.width);
+                var yPx = scaleY(sats_hist_json[j].fields.lati,
+                                 positionInfo.height);
+                // put past position icon
+                $(point).css('left', xPx+"px");
+                $(point).css('top', yPx+"px");
+                $(point).css('display', '');
+                // push history x and y coordinates in the coordinates list
+                point_list.push([xPx, yPx]);
+            };
     };
-
-
-
-
-
-
-
-
-
 
         for (var k=0; k < parseInt((point_list.length)) - 1; k++){
         //console.log(point_list[k][0]);
@@ -188,7 +178,6 @@ document.addEventListener("DOMContentLoaded", function(){
         $(legendText).css('font-weight', 'bold');
         $(legendText).css('display', 'inline');
         $(legendText).appendTo($(legend));
-
     };
     // popovers
     $(".pop").each(function() {
@@ -205,9 +194,6 @@ document.addEventListener("DOMContentLoaded", function(){
         });
     });
 
-
-
-
     var globalX = document.querySelector('#globalX');
     var globalY = document.querySelector('#globalY');
     var localX = document.querySelector('#localX');
@@ -221,8 +207,6 @@ document.addEventListener("DOMContentLoaded", function(){
         globalX.innerHTML = event.screenX;
         globalY.innerHTML = event.screenY;
     });
-
-
 
 });
 
