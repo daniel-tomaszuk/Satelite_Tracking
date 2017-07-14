@@ -41,14 +41,14 @@ SAT_NAME = [
 ]
 
 
-# manage.py installtasks
+# ./manage.py installtasks -> to run kronos
 # You can review the crontab with a crontab -l command
-# @kronos.register('* * * * *')  # every minute
+@kronos.register('* * * * *')  # every minute
 def actuate_sats():
     """
     Use external library to get positions of requested satellites.
-    Create new Satellite (look at models) object if there is no satellite with found name,
-    or update existing satellite if it's already in the DB
+    Create new Satellite (look at models) object if there is no satellite with
+    found name, or update existing satellite if it's already in the DB
     :return: None - only create/update/do nothing on DB objects
     """
     for name in SAT_NAME:
@@ -124,8 +124,6 @@ class Map(View):
                 if hist.date.date().isoformat() == the_date:
                     hist_id.append(hist.id)
 
-
-
         # make json out of history instances
         sats_hist_json = serializers.serialize('json',
                          SatHistory.objects.filter(pk__in=hist_id))
@@ -141,16 +139,17 @@ class Map(View):
 class Satellites(View):
     def get(self, request):
         # actuate_sats()
-        satellites = Satellite.objects.all()
+        satellites = Satellite.objects.all().order_by('id')
         # tables for unique dates extraction (for template)
         dates = []
         uniq_dates = []
         # get history of one satellite (since data is collected for all the
-        # satellites - all satellites will have the same dates
-        history = SatHistory.objects.filter(name='ALOS-2')
+        # satellites) - all satellites will have the same dates
+        example_sat = satellites[0]
+        history = SatHistory.objects.filter(name=example_sat.name)
         # get all dates in the history as strings
-        for date in history:
-            dates.append(date.date.date().isoformat())
+        for hist_date in history:
+            dates.append(hist_date.date.date().isoformat())
         # get unique dates
         for date in dates:
             if date not in uniq_dates:
