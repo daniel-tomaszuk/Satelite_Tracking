@@ -5,6 +5,11 @@ from django.views.generic.edit import *
 from .models import *
 import kronos
 
+from .serializers import *
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 from django.http import Http404
 
 # import json
@@ -136,7 +141,50 @@ class Map(View):
         return render(request, "map.html", context)
 
 
+class SatellitesList(APIView):
+    def get(self, request, format=None):
+        """
+        Serializes and returns all satellites in DB
+        :param request: http request
+        :param format:
+        :return: Serializes data of all satellites in DB
+        """
+        satellites = Satellite.objects.all()
+        serializer = SatelliteSerializer(satellites, many=True,
+                                      context={"request": request})
+        return Response(serializer.data)
+
+
+class History(APIView):
+
+    def get_object(self, name):
+        """
+        Gets history with satellite name = slug from DB
+        :param name: name of satellite which history to get
+        :return: all history (past positions) of satellite with name = slug
+        """
+        try:
+            return SatHistory.objects.filter(name=name)
+        except ObjectDoesNotExist:
+            raise Http404
+
+    def get(self, request, name, format=None):
+        """
+        Gets, serializes and returns SatHistory object with  name = slug
+        :param request: http request
+        :param name: name of satellite which history to get
+        :param format: None
+        :return: serialized SatHistory data
+        """
+        history = self.get_object(name)
+
+        serializer = SatHistorySerializer(history, many=True,
+                                          context={"request": request})
+        return Response(serializer.data)
+
+
 class Satellites(View):
+
     def get(self, request):
         # actuate_sats()
         satellites = Satellite.objects.all().order_by('id')

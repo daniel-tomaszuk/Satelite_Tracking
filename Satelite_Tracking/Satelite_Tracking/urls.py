@@ -34,11 +34,19 @@ urlpatterns = [
 
 
 
+    url(r'^satellites_list', SatellitesList.as_view(), name="sat-list"),
+    url(r'^history/(?P<name>(\D)+)', History.as_view(), name="hist"),
+
+
+
+
     url(r'^satellites/(?P<sat_id>(\d)+)', SatellitesInfo.as_view(),
         name="sat-info"),
     url(r'^satellites', Satellites.as_view(), name="sat-all"),
     url(r'^update_satellites/(?P<pk>(\d)+)', UpdateSatellites.as_view(),
         name="update-satellites"),
+
+
 
 
 

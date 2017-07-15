@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'Sat_Track',
     'kronos',
     'django_countries',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
