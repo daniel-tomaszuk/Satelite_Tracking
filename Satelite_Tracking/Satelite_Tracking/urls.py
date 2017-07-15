@@ -33,11 +33,15 @@ urlpatterns = [
     url(r'^add_personnel', AddPersonnel.as_view(), name="astr-add"),
 
 
+    url(r'^satellites_list', SatellitesList.as_view(), name="REST-sat"),
 
-    url(r'^satellites_list', SatellitesList.as_view(), name="sat-list"),
-    url(r'^history/(?P<name>(\D)+)', History.as_view(), name="hist"),
+    url(r'^history/$', History.as_view(), name="hist"),
 
 
+
+    # url(r'^history/(?P<name>(\w+\s*[-]*\w*))/'
+    #     r'(?P<isodate>(\d{4}[-/]\d{2}[-/]\d{2}))/$',
+    #     History.as_view(), name="REST-hist"),
 
 
     url(r'^satellites/(?P<sat_id>(\d)+)', SatellitesInfo.as_view(),

@@ -157,18 +157,21 @@ class SatellitesList(APIView):
 
 class History(APIView):
 
-    def get_object(self, name):
+    def get_object(self, name, isodate):
         """
-        Gets history with satellite name = slug from DB
+        Gets history with satellite NAME = name from DB
         :param name: name of satellite which history to get
         :return: all history (past positions) of satellite with name = slug
         """
         try:
-            return SatHistory.objects.filter(name=name)
+            # date selected in satellite display form
+            # (url: sat-all, Satellites")
+            return SatHistory.objects.filter(name__in=name)\
+                                     .filter(date__contains=isodate)
         except ObjectDoesNotExist:
             raise Http404
 
-    def get(self, request, name, format=None):
+    def get(self, request, format=None):
         """
         Gets, serializes and returns SatHistory object with  name = slug
         :param request: http request
@@ -176,8 +179,14 @@ class History(APIView):
         :param format: None
         :return: serialized SatHistory data
         """
-        history = self.get_object(name)
+        sat_list = []
+        for sat_name in SAT_NAME:
+                name = request.GET.get(sat_name)
+                if name:
+                    sat_list.append(name)
 
+        isodate = request.GET.get('the_date')
+        history = self.get_object(sat_list, isodate)
         serializer = SatHistorySerializer(history, many=True,
                                           context={"request": request})
         return Response(serializer.data)

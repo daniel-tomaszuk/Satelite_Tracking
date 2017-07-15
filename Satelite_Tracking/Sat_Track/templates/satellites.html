@@ -18,9 +18,9 @@
         {% endfor %}
     </table>
 
-    <form id="satellite_form" action="{% url 'map' %}" method="post">
+    <!--<form id="satellite_form" action="{% url 'map' %}" method="post">-->
+    <form id="satellite_form" action="{% url 'map' %}" method="POST">
 		{%	csrf_token	%}
-        <!--<input type="submit" value="Pokaż mapę">-->
     </form>
     <input type="button" onclick="location.href='/space_agencies';"
            value="Space agencies"/>
