@@ -1,3 +1,50 @@
+var URL = 'http://localhost:8000/history/';
+
+
+// one ajax to rule them all
+var modifyDB = function(myType, myData, urlAddon, successFunction){
+/**
+ * ajax function for DB modifications.
+ * @myType {string} myType - type of action that ajax should do: GET, POST, DELETE
+ * @myData {string} myData  - json data to send, only for POST action
+ * urlAddon {string} urlAddon - string with id of item in DB to make action on
+ * @successFunction {object} successFunction - object - function to fire when ajax successfully finish given action
+ */
+    $.ajax({
+        url: URL + urlAddon,
+        data: myData,
+        type: myType,
+        crossDomain: true,
+        dataType: 'json',
+        async: false, // TO DO: working with true
+        success: function(response){
+            successFunction(response);
+        },
+        error: function(response){
+            console.log('Ajax Fail!\n' + response);
+        }
+    });
+};
+
+// ajax success functions
+var ajaxGet = function(response){
+/**
+* success function for ajax GET action
+* @response {string} response - json with DB server response
+*/
+    console.log('Success data download!');
+};
+
+// get books from DB
+// GET data from DB by means of asynchronous ways ..
+// 18ms < 50%; 25ms -> 100% for localhost
+var getSatHistory = function(urlAddon){
+    modifyDB('GET', '{}', urlAddon, ajaxGet); // passing ajaxGet as object
+    // with function inside
+};
+
+
+
 var scaleX = function(lati, xMax){
     /**
     * Scale geographical latitude into x [px] coordinate.
