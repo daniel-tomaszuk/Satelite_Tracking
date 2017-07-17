@@ -1,0 +1,17 @@
+certifi==2017.4.17
+chardet==3.0.4
+Django==1.11.3
+django-countries==4.6.1
+django-kronos==1.0
+djangorestframework==3.6.3
+idna==2.5
+kronos==0.2.2
+numpy==1.13.0
+pkg-resources==0.0.0
+pyorbital==1.1.1
+python-crontab==2.2.3
+python-dateutil==2.6.0
+pytz==2017.2
+requests==2.18.1
+six==1.10.0
+urllib3==1.21.1
