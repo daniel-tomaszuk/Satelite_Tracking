@@ -142,16 +142,39 @@ class Map(View):
 
 
 class SatellitesList(APIView):
+
+    def get_object(self, name_list):
+        """
+        Gets most recent points with satellite NAME = name from DB
+        :param name: name of satellite which history to get
+        :return: all present points of satellite with name = slug
+        """
+        try:
+            # names selected in satellites.html template form
+            # (url: sat-all, Satellites")
+            return Satellite.objects.filter(name__in=name_list)
+
+        except ObjectDoesNotExist:
+            raise Http404
+
     def get(self, request, format=None):
         """
         Serializes and returns all satellites in DB
         :param request: http request
         :param format:
-        :return: Serializes data of all satellites in DB
+        :return: Serializes data selected by GET parameters
         """
-        satellites = Satellite.objects.all()
-        serializer = SatelliteSerializer(satellites, many=True,
-                                      context={"request": request})
+
+        sat_list = []
+        for sat_name in SAT_NAME:
+            # names selected in satellites.html template form
+            name = request.GET.get(sat_name)
+            if name:
+                sat_list.append(name)
+
+        present = self.get_object(sat_list)
+        serializer = SatelliteSerializer(present, many=True,
+                                          context={"request": request})
         return Response(serializer.data)
 
 
@@ -173,7 +196,7 @@ class History(APIView):
 
     def get(self, request, format=None):
         """
-        Gets, serializes and returns SatHistory object with  name = slug
+        Gets, serializes and returns SatHistory object with  name = sat_name
         :param request: http request
         :param name: name of satellite which history to get
         :param format: None
