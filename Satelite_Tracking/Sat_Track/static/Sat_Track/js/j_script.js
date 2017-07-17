@@ -258,7 +258,6 @@ var ajaxGetPresent = function(response){
 };
 
 
-
 // GET data from DB by means of asynchronous ways ..
 // 18ms < 50%; 25ms -> 100% for localhost
 var getSatHistory = function(url){
@@ -275,7 +274,6 @@ var getSatPresent = function(url){
     var urlBase = 'http://localhost:8000/satellites_list/';
     modifyDB('GET', '{}', urlBase + url, ajaxGetPresent);
 };
-
 
 
 document.addEventListener("DOMContentLoaded", function(){
