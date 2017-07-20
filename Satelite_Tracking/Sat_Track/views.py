@@ -248,7 +248,11 @@ class SatellitesInfo(View):
         satellite = Satellite.objects.get(pk=sat_id)
         sat_history = SatHistory.objects.filter(name=
                         satellite.name).order_by('-date')
-        astronauts = satellite.astronaut_set.all()
+        try:
+            astronauts = satellite.astronaut_set.all()
+        except AttributeError:
+            astronauts = None
+
         agency = satellite.agency
         context = {
             "satellite": satellite,
