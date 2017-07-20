@@ -3,10 +3,20 @@
     <h1>{{ personnel.first_name }} {{ personnel.last_name }}</h1>
 
     <h2>Space agency:</h2>
-    <p><a href="/space_agencies/{{ agency.id }}">{{ agency.acronym }}</a></p>
+    <p>
+        <a href="{% url 'agency-info' agency_id=agency.id %}">
+            {{ agency.acronym }}
+        </a>
+    </p>
     <h2>Satellite:</h2>
-    <p><a href="/satellites/{{ satellite.pk }}">{{ satellite.name }}</a></p>
-    <input type="button" onclick="location.href='/personnel';"
-           value="Personnel list"/>
+    <p>
+        <a href="{% url 'sat-info' sat_id=satellite.pk %}">
+            {{ satellite.name }}
+        </a>
+    </p>
+    <a href="{% url 'astr-all' %}">
+        <!--/personnel'"-->
+        <button type="button">Personnel list</button>
+    </a>
 {% endblock %}
 

@@ -2,19 +2,24 @@
 {% block content %}
     <h1>Satellite information <b>{{ satellite.name }}</b>:</h1>
     <ul>
-        <li>Space agency: <a href="/space_agencies/{{ agency.id }}">{{ agency.name }}</a>
-        <a href="/update_satellites/{{ satellite.id }}">Modify!</a>
-
+        <li>Space agency:
+        {% if agency.id %}
+            <a href="{% url 'agency-info' agency_id=agency.id %}">
+                {{ agency.name }}
+            </a>
+        {% endif %}
+        <a href="{% url 'update-satellites' pk=satellite.id  %}">Modify!</a>
         <li>Epoch: {{ satellite.date}}</li>
         <li>Longitude: {{ satellite.longi }}</li>
         <li>Latitude: {{ satellite.lati }}</li>
         <li>Altitude: {{ satellite.alti }} km</li>
     </ul>
-    <input type="button" onclick="location.href='/satellites';"
-           value="Satellites list"/>
-    <input type="button" onclick="location.href='/personnel';"
-           value="Personnel List"/>
-
+    <a href="{% url 'sat-all'%}">
+        <button type="button">Satellites list</button>
+    </a>
+    <a href="{% url 'astr-all'%}">
+        <button type="button">Personnel list</button>
+    </a>
     <h2>Personnel:</h2>
     <table border="solid">
         <tr>

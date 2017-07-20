@@ -5,7 +5,7 @@
         {% for satellite in satellites %}
             <tr>
                 <td>
-                    <a href="/satellites/{{ satellite.pk }}">
+                    <a href="{% url 'sat-info' sat_id=satellite.pk %}">
                     <b>{{ satellite.name }}</b></a>
                 </td>
                 <td>
@@ -23,10 +23,15 @@
 		{%	csrf_token	%}
     </form>
 
-    <input type="button" onclick="location.href='/space_agencies';"
-           value="Space agencies"/>
-    <input type="button" onclick="location.href='/personnel';"
-           value="Personnel" />
+    <a href="{% url 'space-agencies'%}">
+        <!--/space_agencies-->
+        <button type="button">Space agencies</button>
+    </a>
+
+    <a href="{% url 'astr-all'%}">
+        <!--/personnel-->
+        <button type="button">Personnel</button>
+    </a>
     <select id="select_date" form="satellite_form" name="the_date">
         {% for date in uniq_date %}
             <option value="{{ date }}">{{ date }}</option>

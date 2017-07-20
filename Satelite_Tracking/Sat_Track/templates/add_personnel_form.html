@@ -5,8 +5,11 @@
 		{%	csrf_token	%}
 		{{	form.as_p	}}
 		<input	type="submit" value="Save">
-		<input type="button" onclick="location.href='/personnel';"
-			   value="Cancel"/>
+        <a href="{% url 'astr-all'%}">
+            <button type="button">Cancel</button>
+        </a>
+		<!--<input type="button" onclick="location.href='/personnel';"-->
+			   <!--value="Cancel"/>-->
 </form>
 {% endblock %}
 

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-
 	<form action="" method="post">
 		{%	csrf_token	%}
         <p>Delete <b>"{{ object }}"</b>?</p>
         <input type="submit" value="Delete"/>
-        <input type="button" onclick="location.href='/space_agencies';"
-           value="Cancel"/>
+        <a href="{% url 'space-agencies'%}">
+            <!--/space_agencies-->
+            <button type="button">Cancel</button>
+        </a>
     </form>
 {% endblock %}

@@ -4,23 +4,30 @@
     <ul>
         {% for agency in agencies %}
             <li>
-                <a href="/space_agencies/{{ agency.pk }}">
+                <a href="{% url 'agency-info' agency_id=agency.id %}">
+                <!--/space_agencies/{{ agency.pk }}">-->
                     <b>{{ agency.acronym }}</b>
                 </a>
-                <input type="button" onclick=
-                        "location.href='/update_spaceagency/{{ agency.id }}'"
-                value="Modify" />
-                <input type="button" onclick=
-                        "location.href='/delete_spaceagency/{{ agency.id }}'"
-                value="Delete" />
+                <a href="{% url 'update-space-agency' pk=agency.id %}">
+                    <!--'/update_spaceagency/{{ agency.id }}>"-->
+                    <button type="button">Modify</button>
+                </a>
+                <a href="{% url 'delete-space-agency' pk=agency.id %}">
+                    <!--'/delete_spaceagency/{{ agency.id }}>"-->
+                    <button type="button">Delete</button>
+                </a>
             </li>
             <br>
         {% endfor %}
         <br>
-        <input type="button" onclick="location.href='/add_space_agency';"
-               value="Add" />
-        <input type="button" onclick="location.href='/satellites';"
-               value="Satellites List" />
+        <a href="{% url 'add-space-agency' %}">
+            <!--'/add_space_agency';"-->
+            <button type="button">Add</button>
+        </a>
+        <a href="{% url 'sat-all' %}">
+            <!--/satellites-->
+            <button type="button">Satellites List</button>
+        </a>
     </ul>
 {% endblock %}
 

@@ -5,7 +5,9 @@
 		{%	csrf_token	%}
         <p>Delete <b>"{{ object }}"</b>?</p>
         <input type="submit" value="Delete"/>
-        <input type="button" onclick="location.href='/personnel';"
-               value="Cancel"/>
+        <a href="{% url 'astr-all' %}">
+            <!--/personnel"-->
+            <button type="button">Cancel</button>
+        </a>
     </form>
 {% endblock %}

@@ -6,7 +6,9 @@
 		<h1>Changing satellite space agency! </h1>
 		{{	form.as_p	}}
 		<input	type="submit" value="Save">
-		<input type="button" onclick="location.href='/satellites/';"
-			   value="Cancel"/>
+        <a href="{% url 'sat-all'%}">
+            <!--/satellites/-->
+            <button type="button">Cancel</button>
+        </a>
 </form>
 {% endblock %}

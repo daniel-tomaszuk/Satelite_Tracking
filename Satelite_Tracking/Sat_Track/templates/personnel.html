@@ -4,22 +4,29 @@
     <ul>
         {% for person in personnel %}
             <li>
-                <a href="/personnel/{{ person.id }}">
+                <a href="{% url 'astr-info' astr_id=person.id %}">
+                <!--<a href="/personnel/person.id">-->
                     {{ person.first_name }} {{ person.last_name }}
                 </a>
-                <input type="button" onclick="location.href=
-                                         '/update_personnel/{{ person.id }}';"
-                       value="Modify"/>
-                <input type="button" onclick="location.href=
-                                         '/delete_personnel/{{ person.id }}';"
-                       value="Delete"/>
+                <a href="{% url 'astr-update' pk=person.id %}">
+                    <!--/update_personnel/person.id'"-->
+                    <button type="button">Modify</button>
+                </a>
+                <a href="{% url 'astr-delete' pk=person.id %}">
+                    <!--/delete_personnel/person.id'"-->
+                    <button type="button">Delete</button>
+                </a>
             </li>
         {% endfor %}
         <br>
-        <input type="button" onclick="location.href='/add_personnel';"
-               value="Add"/>
-        <input type="button" onclick="location.href='/satellites';"
-               value="Satellites list"/>
+        <a href="{% url 'astr-add' %}">
+            <!--/add_personnel"-->
+            <button type="button">Add</button>
+        </a>
+        <a href="{% url 'sat-all' %}">
+            <!--/satellites"-->
+            <button type="button">Satellites list</button>
+        </a>
     </ul>
 {% endblock %}
 

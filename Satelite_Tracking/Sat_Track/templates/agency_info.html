@@ -11,11 +11,17 @@
             <li>Is able to lunch: NO</li>
         {% endif %}
     </ul>
-    <input type="button" onclick="location.href='/space_agencies';"
-           value="Agency list"/>
+    <a href="{% url 'space-agencies' %}">
+        <!--/space_agencies"-->
+        <button type="button">Agency list</button>
+    </a>
     <h2>List of agency objects:</h2>
     {% for satellite in satellites %}
-        <p><a href="/satellites/{{ satellite.id }}">{{ satellite.name }}</a></p>
+        <p>
+            <a href="{% url 'sat-info' sat_id=satellite.id %}">
+                {{ satellite.name }}
+            </a>
+        </p>
     {% empty %}
         <p>None! {{ agency.name }} can not into Space!</p>
     {% endfor %}
@@ -32,7 +38,7 @@
             <td>{{ person.first_name }}</td>
             <td>{{ person.last_name }}</td>
             <td>
-                <a href="/satellites/{{ personnel.satellite.id }}">
+                <a href="{% url 'sat-info' sat_id=personnel.satellite.id %}">
                     {{ person.satellite.name }}
                 </a>
             </td>
