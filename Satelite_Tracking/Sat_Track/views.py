@@ -248,16 +248,15 @@ class SatellitesInfo(View):
         satellite = Satellite.objects.get(pk=sat_id)
         sat_history = SatHistory.objects.filter(name=
                         satellite.name).order_by('-date')
-        try:
-            astronauts = satellite.astronaut_set.all()
-        except AttributeError:
-            astronauts = None
-
         agency = satellite.agency
+        try:
+            personnel = satellite.personnel_set.all()
+        except AttributeError:
+            personnel = None
         context = {
             "satellite": satellite,
             "history": sat_history,
-            "astronauts": astronauts,
+            "personnel": personnel,
             "agency": agency,
         }
         return render(request, "satellite_info.html", context)
@@ -283,13 +282,17 @@ class SpaceAgencies(View):
 class AgencyInfo(View):
     def get(self, request, agency_id):
         agency = SpaceAgency.objects.get(pk=agency_id)
-        satellites = agency.satellite_set.all()
-        astronauts = agency.astronaut_set.all()
+        try:
+            satellites = agency.satellite_set.all()
+            personnel = agency.personnel_set.all()
+        except AttributeError:
+            satellites = None
+            personnel = None
         # sat_history.sort(key=operator.itemgetter('date'))
         context = {
             "agency": agency,
             "satellites": satellites,
-            "astronauts": astronauts,
+            "personnel": personnel,
         }
         return render(request, "agency_info.html", context)
 
