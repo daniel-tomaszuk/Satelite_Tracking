@@ -16,6 +16,7 @@ from django.http import Http404
 # from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.urlresolvers import reverse_lazy
 from pyorbital.orbital import Orbital
 from datetime import datetime
 
@@ -174,7 +175,7 @@ class SatellitesList(APIView):
 
         present = self.get_object(sat_list)
         serializer = SatelliteSerializer(present, many=True,
-                                          context={"request": request})
+                                         context={"request": request})
         return Response(serializer.data)
 
 
@@ -266,7 +267,7 @@ class UpdateSatellites(UpdateView):
     model = Satellite
     template_name = "satellites_update_form.html"
     fields = ['agency']
-    success_url = '/satellites'
+    success_url = reverse_lazy('sat-all')
 
 
 class SpaceAgencies(View):
@@ -301,20 +302,20 @@ class AddSpaceAgency(CreateView):
     model = SpaceAgency
     template_name = "add_space_agency_form.html"
     fields = ['name', 'acronym', 'country', 'launch_capable']
-    success_url = '/space_agencies'
+    success_url = reverse_lazy('space-agencies')
 
 
 class UpdateSpaceAgency(UpdateView):
     model = SpaceAgency
     template_name = "spaceagency_update_form.html"
     fields = ['name', 'acronym', "country", "launch_capable"]
-    success_url = '/space_agencies'
+    success_url = reverse_lazy('space-agencies')
 
 
 class DeleteSpaceAgency(DeleteView):
     model = SpaceAgency
     template_name = "spaceagency_confirm_delete.html"
-    success_url = '/space_agencies'
+    success_url = reverse_lazy('space-agencies')
 
 
 class AllPersonnel(View):
@@ -347,19 +348,19 @@ class AddPersonnel(CreateView):
     model = Personnel
     template_name = "add_personnel_form.html"
     fields = ['first_name', 'last_name', 'agency', 'satellite']
-    success_url = '/personnel'
+    success_url = reverse_lazy('astr-all')
 
 
 class UpdatePersonnel(UpdateView):
     model = Personnel
     template_name = "personnel_update_form.html"
     fields = ['first_name', 'last_name', "agency", "satellite"]
-    success_url = '/personnel'
+    success_url = reverse_lazy('astr-all')
 
 
 class DeletePersonnel(DeleteView):
     model = Personnel
     template_name = "personnel_confirm_delete.html"
-    success_url = '/personnel'
+    success_url = reverse_lazy('astr-all')
 
 
