@@ -21,30 +21,12 @@ from pyorbital.orbital import Orbital
 from datetime import datetime
 
 SAT_NAME = [
-'ALOS-2',
-'Landsat 7',
-'Landsat 8',
-'Meteosat 7',
-'Meteosat 8',
-'Meteosat 9',
-'Meteosat 10',
-'Metop A',
-'Metop B',
-'NOAA 15',
-'NOAA 16',
-'NOAA 17',
-'NOAA 18',
-'NOAA 19',
-'RadarSat 2',
-'Sentinel 1A',
-'SMOS',
-'SPOT 5',
-'SPOT 6',
-'SPOT 7',
-'Suomi NPP',
-'TanDEM X',
-'TerraSAR X',
-]
+            'ALOS-2', 'Landsat 7', 'Landsat 8', 'Meteosat 7', 'Meteosat 8',
+            'Meteosat 9', 'Meteosat 10', 'Metop A', 'Metop B', 'NOAA 15',
+            'NOAA 16', 'NOAA 17', 'NOAA 18', 'NOAA 19', 'RadarSat 2',
+            'Sentinel 1A', 'SMOS', 'SPOT 5', 'SPOT 6', 'SPOT 7', 'Suomi NPP',
+            'TanDEM X', 'TerraSAR X',
+            ]
 
 
 # ./manage.py installtasks -> to run kronos
@@ -301,21 +283,21 @@ class AgencyInfo(View):
 class AddSpaceAgency(CreateView):
     model = SpaceAgency
     template_name = "add_space_agency_form.html"
-    fields = ['name', 'acronym', 'country', 'launch_capable']
-    success_url = reverse_lazy('space-agencies')
+    fields = ["name", "acronym", "country", "launch_capable"]
+    success_url = reverse_lazy("space-agencies")
 
 
 class UpdateSpaceAgency(UpdateView):
     model = SpaceAgency
     template_name = "spaceagency_update_form.html"
-    fields = ['name', 'acronym', "country", "launch_capable"]
-    success_url = reverse_lazy('space-agencies')
+    fields = ["name", "acronym", "country", "launch_capable"]
+    success_url = reverse_lazy("space-agencies")
 
 
 class DeleteSpaceAgency(DeleteView):
     model = SpaceAgency
     template_name = "spaceagency_confirm_delete.html"
-    success_url = reverse_lazy('space-agencies')
+    success_url = reverse_lazy("space-agencies")
 
 
 class AllPersonnel(View):
@@ -347,20 +329,20 @@ class PersonnelInfo(View):
 class AddPersonnel(CreateView):
     model = Personnel
     template_name = "add_personnel_form.html"
-    fields = ['first_name', 'last_name', 'agency', 'satellite']
+    fields = ["first_name", "last_name", "agency", "satellite"]
     success_url = reverse_lazy('astr-all')
 
 
 class UpdatePersonnel(UpdateView):
     model = Personnel
     template_name = "personnel_update_form.html"
-    fields = ['first_name', 'last_name', "agency", "satellite"]
-    success_url = reverse_lazy('astr-all')
+    fields = ["first_name", "last_name", "agency", "satellite"]
+    success_url = reverse_lazy("astr-all")
 
 
 class DeletePersonnel(DeleteView):
     model = Personnel
     template_name = "personnel_confirm_delete.html"
-    success_url = reverse_lazy('astr-all')
+    success_url = reverse_lazy("astr-all")
 
 
