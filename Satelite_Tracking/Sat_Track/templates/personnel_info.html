@@ -14,9 +14,8 @@
             {{ satellite.name }}
         </a>
     </p>
-    <a href="{% url 'astr-all' %}">
-        <!--/personnel'"-->
-        <button type="button">Personnel list</button>
-    </a>
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'astr-all'%}'" type="button">
+        Personnel list
+    </button>
 {% endblock %}
 

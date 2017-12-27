@@ -14,12 +14,12 @@
         <li>Latitude: {{ satellite.lati }}</li>
         <li>Altitude: {{ satellite.alti }} km</li>
     </ul>
-    <a href="{% url 'sat-all'%}">
-        <button type="button">Satellites list</button>
-    </a>
-    <a href="{% url 'astr-all'%}">
-        <button type="button">Personnel list</button>
-    </a>
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'sat-all'%}'" type="button">
+        Satellites list
+    </button>
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'astr-all'%}'" type="button">
+        Personnel list
+    </button>
     <h2>Personnel:</h2>
     <table border="solid">
         <tr>

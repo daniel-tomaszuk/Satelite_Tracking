@@ -11,17 +11,19 @@
             <li>Is able to lunch: NO</li>
         {% endif %}
     </ul>
-    <a href="{% url 'space-agencies' %}">
-        <!--/space_agencies"-->
-        <button type="button">Agency list</button>
-    </a>
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'space-agencies'%}'" type="button">
+        Agency list
+    </button>
+
     <h2>List of agency objects:</h2>
     {% for satellite in satellites %}
-        <p>
-            <a href="{% url 'sat-info' sat_id=satellite.id %}">
-                {{ satellite.name }}
-            </a>
-        </p>
+        {% if satellite %}
+            <p>
+                <a href="{% url 'sat-info' sat_id=satellite.id %}">
+                    {{ satellite.name }}
+                </a>
+            </p>
+        {% endif %}
     {% empty %}
         <p>None! {{ agency.name }} can not into Space!</p>
     {% endfor %}
@@ -34,15 +36,15 @@
             <th>Object</th>
         </tr>
         {% for person in personnel %}
-        <tr>
-            <td>{{ person.first_name }}</td>
-            <td>{{ person.last_name }}</td>
-            <td>
-                <a href="{% url 'sat-info' sat_id=personnel.satellite.id %}">
-                    {{ person.satellite.name }}
-                </a>
-            </td>
-        </tr>
+            {% if person %}
+                <tr>
+                    <td>{{ person.first_name }}</td>
+                    <td>{{ person.last_name }}</td>
+                    <td>
+                        {{ person.satellite.name }}
+                    </td>
+                </tr>
+            {% endif %}
         {% empty %}
         <tr>
             <td>None!</td>

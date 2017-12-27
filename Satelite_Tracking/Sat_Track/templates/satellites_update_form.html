@@ -5,10 +5,9 @@
 		{%	csrf_token	%}
 		<h1>Changing satellite space agency! </h1>
 		{{	form.as_p	}}
-		<input	type="submit" value="Save">
-        <a href="{% url 'sat-all'%}">
-            <!--/satellites/-->
-            <button type="button">Cancel</button>
-        </a>
+		<input class="btn btn-primary btn-xs"	type="submit" value="Save">
+        <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'sat-all'%}'" type="button">
+            Cancel
+        </button>
 </form>
 {% endblock %}

@@ -8,25 +8,21 @@
                 <!--<a href="/personnel/person.id">-->
                     {{ person.first_name }} {{ person.last_name }}
                 </a>
-                <a href="{% url 'astr-update' pk=person.id %}">
-                    <!--/update_personnel/person.id'"-->
-                    <button type="button">Modify</button>
-                </a>
-                <a href="{% url 'astr-delete' pk=person.id %}">
-                    <!--/delete_personnel/person.id'"-->
-                    <button type="button">Delete</button>
-                </a>
+                <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'astr-update' pk=person.id %}'" type="button">
+                    Modify
+                </button>
+                <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'astr-delete' pk=person.id %}'" type="button">
+                    Delete
+                </button>
             </li>
         {% endfor %}
         <br>
-        <a href="{% url 'astr-add' %}">
-            <!--/add_personnel"-->
-            <button type="button">Add</button>
-        </a>
-        <a href="{% url 'sat-all' %}">
-            <!--/satellites"-->
-            <button type="button">Satellites list</button>
-        </a>
+        <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'astr-add'%}'" type="button">
+            Add
+        </button>
+        <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'sat-all'%}'" type="button">
+            Satellites list
+        </button>
     </ul>
 {% endblock %}
 

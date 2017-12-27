@@ -6,7 +6,8 @@
             <tr>
                 <td>
                     <a href="{% url 'sat-info' sat_id=satellite.pk %}">
-                    <b>{{ satellite.name }}</b></a>
+                        <b>{{ satellite.name }}</b>
+                    </a>
                 </td>
                 <td>
                     <input type="checkbox" name="{{ satellite.name }}"
@@ -22,17 +23,13 @@
     <!--<form id="satellite_form" action="{% url 'hist' %}" method="GET">-->
 		{%	csrf_token	%}
     </form>
-
-    <a href="{% url 'space-agencies'%}">
-        <!--/space_agencies-->
-        <button type="button">Space agencies</button>
-    </a>
-
-    <a href="{% url 'astr-all'%}">
-        <!--/personnel-->
-        <button type="button">Personnel</button>
-    </a>
-    <select id="select_date" form="satellite_form" name="the_date">
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'space-agencies' %}'" type="button">
+        Space agencies
+    </button>
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'astr-all' %}'" type="button">
+        Personnel
+    </button>
+    <select class="btn btn-primary btn-xs" id="select_date" form="satellite_form" name="the_date">
         {% for date in uniq_date %}
             <option value="{{ date }}">{{ date }}</option>
         {% endfor %}
@@ -40,7 +37,7 @@
     {% comment %}
     <!--POST into url: map. Check Map View post method-->
     {% endcomment %}
-    <input type="submit" value="World Map" form="satellite_form" />
+    <input class="btn btn-primary btn-xs" type="submit" value="World Map" form="satellite_form" />
 
 {% endblock %}
 

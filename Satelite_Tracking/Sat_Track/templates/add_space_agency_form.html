@@ -4,10 +4,10 @@
 <form action="{% url 'add-space-agency' %}" method="post">
 		{%	csrf_token	%}
 		{{	form.as_p	}}
-		<input type="submit" value="Save">
-	    <a href="{% url 'space-agencies' %}">
-            <button type="button">Cancel</button>
-        </a>
+		<input class="btn btn-primary btn-xs" type="submit" value="Save">
+		<button class="btn btn-primary btn-xs" onclick="location.href='{% url 'space-agencies'%}'" type="button">
+            Cancel
+        </button>
 		<!--<input type="button" onclick="location.href='/space_agencies';"-->
 			   <!--value="Cancel"/>-->
 </form>

@@ -5,11 +5,10 @@
     {%	csrf_token	%}
     <h1>Modification of personnel! </h1>
     {{	form.as_p	}}
-    <input	type="submit" value="Save">
-    <a href="{% url 'space-agencies' %}">
-        <!--/space_agencies'"-->
-        <button type="button">Cancel</button>
-    </a>
+    <input class="btn btn-primary btn-xs" type="submit" value="Save">
+    <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'space-agencies'%}'" type="button">
+        Cancel
+    </button>
 </form>
 {% endblock %}
 

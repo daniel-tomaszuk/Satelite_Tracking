@@ -12,10 +12,9 @@
         Global Y: <span id="globalY"></span>
         Local X: <span id="localX"></span>
         Local Y: <span id="localY"></span>
-        <a href="{% url 'sat-all' %}">
-            <!--/satellites"-->
-            <button type="button">Satellites list</button>
-        </a>
+        <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'sat-all' %}'" type="button">
+            Satellites list
+        </button>
         LEGEND: <span id="legend"></span>
     </div>
 {% endblock %}
