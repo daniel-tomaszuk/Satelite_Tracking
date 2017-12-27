@@ -208,16 +208,20 @@ class Satellites(View):
         uniq_dates = []
         # get history of one satellite (since data is collected for all the
         # satellites) - all satellites will have the same dates
-        example_sat = satellites[0]
-        history = SatHistory.objects.filter(name=example_sat.name)
-        # get all dates in the history as strings
-        for hist_date in history:
-            dates.append(hist_date.date.date().isoformat())
-        # get unique dates
-        for date in dates:
-            if date not in uniq_dates:
-                uniq_dates.append(date)
-        uniq_dates = uniq_dates[::-1]
+        if satellites:
+            example_sat = satellites[0]
+            history = SatHistory.objects.filter(name=example_sat.name)
+            # get all dates in the history as strings
+            for hist_date in history:
+                dates.append(hist_date.date.date().isoformat())
+            # get unique dates
+            for date in dates:
+                if date not in uniq_dates:
+                    uniq_dates.append(date)
+            uniq_dates = uniq_dates[::-1]
+        else:
+            satellites = ''
+            uniq_dates = ''
 
         context = {
             "satellites": satellites,
