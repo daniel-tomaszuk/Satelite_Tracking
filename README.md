@@ -3,7 +3,7 @@
 Project of simple satellite tracker. External library PyOrbital provides longitude, latitude and altitude of 
 chosen satellites. Program translates geographical positions into pixel coordinates and marks actual position 
 on the world map. Past positions are saved in the DB so it is possible to check  satellite position on 
-any given time (when the server was running). Positions are updated every minute by means of Kronos. Satellites and past positions are shown with usage of jQuerry and JavaScript. AJAX is used to communicate with REST API server.
+any given time (when the server was running). Positions are updated every minute by means of Kronos. Satellites and past positions are shown with usage of jQuerry and JavaScript. AJAX is used to communicate with REST API server. Best to run on Chrome.
 
 Default localhost sites:
 
