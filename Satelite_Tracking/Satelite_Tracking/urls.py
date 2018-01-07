@@ -20,7 +20,7 @@ from Sat_Track.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^map', Map.as_view(), name="map"),
+    url(r'^$', Map.as_view(), name="map"),
 
 
     url(r'^personnel/(?P<astr_id>(\d)+)', PersonnelInfo.as_view(),
