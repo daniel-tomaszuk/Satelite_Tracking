@@ -1,4 +1,4 @@
-# Satellite Tracking Service
+# Satellite Tracking Service - Django with REST API
 
 Project of simple satellite tracker. External library PyOrbital provides longitude, latitude and altitude of 
 chosen satellites. Program translates geographical positions into pixel coordinates and marks actual position 
