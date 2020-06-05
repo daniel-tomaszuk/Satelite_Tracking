@@ -1,6 +1,6 @@
 certifi==2017.4.17
 chardet==3.0.4
-Django==1.11.23
+Django==1.11.29
 django-countries==4.6.1
 django-kronos==1.0
 djangorestframework==3.6.3
