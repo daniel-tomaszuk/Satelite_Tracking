@@ -3,7 +3,7 @@ chardet==3.0.4
 Django==1.11.23
 django-countries==4.6.1
 django-kronos==1.0
-djangorestframework==3.6.3
+djangorestframework==3.11.2
 idna==2.5
 numpy==1.13.0
 pkg-resources==0.0.0
