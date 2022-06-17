@@ -5,7 +5,7 @@ django-countries==4.6.1
 django-kronos==1.0
 djangorestframework==3.6.3
 idna==2.5
-numpy==1.13.0
+numpy==1.21.0
 pkg-resources==0.0.0
 pyorbital==1.1.1
 python-crontab==2.2.3
