@@ -1,4 +1,4 @@
-certifi==2017.4.17
+certifi==2022.12.7
 chardet==3.0.4
 Django==1.11.23
 django-countries==4.6.1
